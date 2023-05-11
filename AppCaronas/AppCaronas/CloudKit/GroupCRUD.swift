@@ -17,6 +17,75 @@ protocol CloudKitItemProtocol {
     var record: CKRecord { get  }
 }
 
+struct Car: CloudKitItemProtocol {
+    var model: String
+    var year: Int
+    
+    var record: CKRecord
+    
+    init(model: String, year: Int) {
+        self.model = model
+        self.year = year
+        
+        self.record = CKRecord(recordType: "Car")
+    }
+
+    init?(record: CKRecord) {
+        guard let model = record["model"] as? String,
+              let year = record["year"] as? Int
+        else { return nil }
+        
+        self.model = model
+        self.year = year
+        self.record = record
+    }
+}
+
+struct SomeView: View {
+    
+    @StateObject var viewModel = LiftViewModel()
+    
+    @State var model: String = ""
+    @State var year: String = ""
+    
+    var body: some View {
+        VStack {
+            TextField("Model name", text: self.$model)
+                .padding()
+            
+            TextField("Year", text: self.$year)
+                .padding()
+            
+            
+            Button(action: {
+                guard let year = Int(self.year) else { return }
+                let car = Car(model: self.model, year: year)
+                
+                self.viewModel.saveOnDataBase(car: car)
+            }, label: {
+                Text("Save car on database")
+            })
+        }
+    }
+}
+
+class LiftViewModel: ObservableObject {
+    
+    func saveOnDataBase(car: Car) {
+        let record = CKRecord(recordType: "Car")
+        record["model"] = car.model
+        record["year"] = car.year
+        CloudKitUtility.save(record: record, completion: { result in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let failure):
+                print(failure)
+            }
+        })
+    }
+}
+
 struct FruitModel: Hashable, CloudKitItemProtocol {
     let name: String
     let imageURL: URL?
