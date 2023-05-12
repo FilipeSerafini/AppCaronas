@@ -97,10 +97,10 @@
 			children = (
 				B1CA3AC42A0C2B6100E8495F /* AppCaronas.entitlements */,
 				B1CA3ABF2A0C249B00E8495F /* CloudKit */,
-				B1CA3AB12A0C23AF00E8495F /* AppCaronasApp.swift */,
 				7B7E338C2A0D82D100B70DE8 /* Components */,
 				7B7E33852A0D81C100B70DE8 /* Model */,
 				7B7E33822A0D818F00B70DE8 /* Views */,
+				B1CA3AB12A0C23AF00E8495F /* AppCaronasApp.swift */,
 				B1CA3AB32A0C23AF00E8495F /* ContentView.swift */,
 				B1CA3AB52A0C23B000E8495F /* Assets.xcassets */,
 				B1CA3AB72A0C23B000E8495F /* Preview Content */,
