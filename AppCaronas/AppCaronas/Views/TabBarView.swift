@@ -31,7 +31,7 @@ struct TabBarView: View {
                     }
                 }
             
-            Text("Perfil")
+            PerfilView(person: p1)
                 .tabItem {
                     VStack {
                         Label("Perfil", systemImage: "person")
