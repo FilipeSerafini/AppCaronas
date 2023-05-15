@@ -18,15 +18,15 @@ struct Person: Hashable{
     var id: String = UUID().uuidString
     var name: String
     var number: String
+    var email: String
     var groups: [Group]
     var photo: String?
     
 }
 
-var p1 = Person(name: "João", number: "111111111", groups: [])
-var p2 = Person(name: "Maria", number: "222222222", groups: [])
-var p3 = Person(name: "Qleber", number: "333333333", groups: [])
-var p4 = Person(name: "Jorge", number: "444444444", groups: [])
-var p5 = Person(name: "Pedro", number: "555555555", groups: [])
-
+var p1 = Person(name: "João", number: "111111111", email: "joao@gmail.com", groups: [])
+var p2 = Person(name: "Maria", number: "222222222", email: "maria@gmail.com", groups: [])
+var p3 = Person(name: "Qleber", number: "333333333", email: "qleber@yahoo.com", groups: [])
+var p4 = Person(name: "Jorge", number: "444444444", email: "jorge@hotmail.com", groups: [])
+var p5 = Person(name: "Pedro", number: "555555555", email: "pedro@gmail.com", groups: [])
 
