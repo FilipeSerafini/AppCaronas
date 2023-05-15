@@ -28,6 +28,8 @@ struct FeedView: View {
                         .resizable()
                         .frame(width: 25, height: 25)
                         .padding(.top, 50)
+                        .foregroundColor(.black)
+                        .shadow(color: .black, radius: 30)
                 }
                 
             }
