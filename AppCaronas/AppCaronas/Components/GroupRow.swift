@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GroupRow: View {
     
-    var group: Group
+    var group: CompGroup
     
     var body: some View {
         VStack{

@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct FeedView: View {
+    @StateObject private var gc: CompGroupCRUD = CompGroupCRUD()
+    
     var body: some View {
         NavigationStack{
             VStack {
-                ScrollView{
-                    ForEach(groups, id: \.self){ group in
-                        GroupRow(group: group)
+                NavigationView {
+                    List {
+                        ForEach(gc.groups, id: \.self) { group in
+                            GroupRow(group: group)
+                        }
                     }
                 }
                 

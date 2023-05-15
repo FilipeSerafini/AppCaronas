@@ -18,7 +18,7 @@ struct Person: Hashable{
     var id: String = UUID().uuidString
     var name: String
     var number: String
-    var groups: [Group]
+    var groups: [CompGroup]
     var photo: String?
     
 }
