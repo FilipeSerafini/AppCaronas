@@ -20,7 +20,7 @@ struct Person: Hashable{
     var number: String
     var email: String
     var groups: [Group]
-    var photo: String?
+    var photo: String = "person.circle"
     
 }
 
