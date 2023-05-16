@@ -17,22 +17,20 @@ struct WeekView: View {
     var body: some View {
         HStack(spacing: 10) {
             ForEach(0..<letters.count, id: \.self) { i in
-                Button {
+                ZStack {
+                    Circle()
+                        .frame(width: CGFloat(size + 4))
+                        .foregroundColor(selected[i] ? .green : Color(.lightGray))
+                    Image(systemName: "\(letters[i]).circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: CGFloat(size))
+                        .foregroundColor(Color(.lightGray))
+                        .background(Color(.black))
+                        .clipShape(Circle())
+                }
+                .onTapGesture {
                     selected[i].toggle()
-                } label: {
-                    ZStack {
-                        Circle()
-                            .frame(width: CGFloat(size + 4))
-                            .foregroundColor(selected[i] ? .green : Color(.lightGray))
-                        Image(systemName: "\(letters[i]).circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: CGFloat(size))
-                            .foregroundColor(Color(.lightGray))
-                            .background(Color(.black))
-                            .clipShape(Circle())
-                    }
-                    .buttonStyle(PlainButtonStyle())
                 }
             }
         }

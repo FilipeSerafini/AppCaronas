@@ -24,18 +24,17 @@ struct TransportView: View {
                     Circle()
                         .foregroundColor(selected[i] ? Color(.lightGray) : .white)
                         .frame(width: 38)
-                    Button {
-                        selected[i].toggle()
-                    } label: {
-                        Image(systemName: symbolList[i])
-                            .foregroundColor(.black)
-                    }
-                    .buttonStyle(PlainButtonStyle())
+                    Image(systemName: symbolList[i])
+                        .foregroundColor(.black)
+                }
+                .onTapGesture {
+                    selected[i].toggle()
                 }
             }
         }
     }
 }
+
 
 struct TransportView_Previews: PreviewProvider {
     static var previews: some View {

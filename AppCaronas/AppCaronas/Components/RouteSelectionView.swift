@@ -40,7 +40,7 @@ struct AddressBarView: View {
 
 struct RouteSelectionView: View {
     @Namespace private var animation
-    @State var swapped = false
+    @State var fromAcademyToLocation = false
     @State var selectedDate: Date = Date()
     
     var body: some View {
@@ -52,7 +52,7 @@ struct RouteSelectionView: View {
                     .coordinateSpace(name: "start")
                     .onTapGesture {
                         withAnimation {
-                            swapped.toggle()
+                            fromAcademyToLocation.toggle()
                         }
                     }
                 
@@ -75,7 +75,7 @@ struct RouteSelectionView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 24) {
-                    if (!swapped) {
+                    if (!fromAcademyToLocation) {
                         AcademyView()
                             .matchedGeometryEffect(id: "academy", in: animation)
                         AddressBarView()
