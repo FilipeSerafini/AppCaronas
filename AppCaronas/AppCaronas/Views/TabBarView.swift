@@ -17,7 +17,7 @@ struct TabBarView: View {
                     }
                 }
             
-            Text("Buscar")
+            BuscarView()
                 .tabItem {
                     VStack {
                         Label("Buscar", systemImage: "magnifyingglass")
