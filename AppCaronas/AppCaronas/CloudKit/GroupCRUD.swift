@@ -12,10 +12,10 @@ import Combine
 //recor[] ainda eh hardcoded, poderia criar uma struct com essas variaves e chamar elas
 
 
-protocol CloudKitItemProtocol {
-    init?(record: CKRecord)
-    var record: CKRecord { get  }
-}
+//protocol CloudKitItemProtocol {
+//    init?(record: CKRecord)
+//    var record: CKRecord { get  }
+//}
 
 struct FruitModel: Hashable, CloudKitItemProtocol {
     let name: String

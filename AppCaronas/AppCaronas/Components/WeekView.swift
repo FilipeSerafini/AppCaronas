@@ -34,6 +34,7 @@ struct WeekView: View {
 //            }
 //        }
         HStack(spacing: 10) {
+<<<<<<< HEAD
             ForEach(0..<group.week.selected.count, id: \.self) { i in
                 ZStack {
                     Image(systemName: "\(group.week.letters[i]).circle.fill")
@@ -43,6 +44,23 @@ struct WeekView: View {
                         .foregroundColor(group.week.selected[i] ? .green : Color(.lightGray))
                         .background(Color(.black))
                         .clipShape(Circle())
+=======
+            ForEach(0..<letters.count, id: \.self) { i in
+                ZStack {
+                    Circle()
+                        .frame(width: CGFloat(size + 4))
+                        .foregroundColor(selected[i] ? .green : Color(.lightGray))
+                    Image(systemName: "\(letters[i]).circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: CGFloat(size))
+                        .foregroundColor(Color(.lightGray))
+                        .background(Color(.black))
+                        .clipShape(Circle())
+                }
+                .onTapGesture {
+                    selected[i].toggle()
+>>>>>>> origin/dev
                 }
                 .buttonStyle(PlainButtonStyle())
             }
