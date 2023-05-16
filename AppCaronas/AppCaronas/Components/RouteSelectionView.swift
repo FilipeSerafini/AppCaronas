@@ -40,12 +40,9 @@ struct AddressBarView: View {
 
 struct RouteSelectionView: View {
     @Namespace private var animation
-<<<<<<< HEAD
     @State var swapped = false
-=======
     @State var fromAcademyToLocation = false
     @State var selectedDate: Date = Date()
->>>>>>> origin/dev
     
     var body: some View {
         
