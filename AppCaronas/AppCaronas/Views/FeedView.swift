@@ -13,7 +13,11 @@ struct FeedView: View {
             VStack {
                 ScrollView{
                     ForEach(groups, id: \.self){ group in
-                        GroupRow(group: group)
+                        NavigationLink{
+                            GroupDetailsView(group: group)
+                        }label: {
+                            GroupRow(group: group)
+                        }
                     }
                 }
                 
@@ -21,13 +25,13 @@ struct FeedView: View {
             }
             .navigationTitle("Feed")
             .toolbar{
-                Button{
-                    
+                NavigationLink{
+                    CreateGroupView()
                 }label: {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .padding(.top, 50)
+//                        .padding(.top, 50)
                         .foregroundColor(.black)
                         .shadow(color: .black, radius: 30)
                 }

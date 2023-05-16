@@ -10,28 +10,42 @@ import SwiftUI
 
 
 struct WeekView: View {
-    @State var selected: [Bool] = [false, false, false, false, false, false, false]
-    let letters: [String] = ["s","t","q","q","s","s","d"]
+//    @State var selected: [Bool] = [false, false, false, false, false, false, false]
+    var group: Group
+//    let letters: [String] = ["s","t","q","q","s","s","d"]
     let size: Int
     
     var body: some View {
+//        HStack(spacing: 10) {
+//            ForEach(0..<group.week.selected.count, id: \.self) { i in
+//                ZStack {
+//                    Circle()
+//                        .frame(width: CGFloat(size + 4))
+//                        .foregroundColor(group.week.selected[i] ? .green : Color(.lightGray))
+//                    Image(systemName: "\(group.week.letters[i]).circle.fill")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: CGFloat(size))
+//                        .foregroundColor(Color(.lightGray))
+//                        .background(Color(.black))
+//                        .clipShape(Circle())
+//                }
+//                .buttonStyle(PlainButtonStyle())
+//            }
+//        }
         HStack(spacing: 10) {
-            ForEach(0..<letters.count, id: \.self) { i in
+            ForEach(0..<group.week.selected.count, id: \.self) { i in
                 ZStack {
-                    Circle()
-                        .frame(width: CGFloat(size + 4))
-                        .foregroundColor(selected[i] ? .green : Color(.lightGray))
-                    Image(systemName: "\(letters[i]).circle.fill")
+                    Image(systemName: "\(group.week.letters[i]).circle.fill")
                         .resizable()
                         .scaledToFit()
                         .frame(width: CGFloat(size))
-                        .foregroundColor(Color(.lightGray))
+                        .foregroundColor(group.week.selected[i] ? .green : Color(.lightGray))
                         .background(Color(.black))
                         .clipShape(Circle())
+
                 }
-                .onTapGesture {
-                    selected[i].toggle()
-                }
+                .buttonStyle(PlainButtonStyle())
             }
         }
     }
@@ -39,6 +53,6 @@ struct WeekView: View {
 
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
-        WeekView(size: 40)
+        WeekView(group: g1, size: 40)
     }
 }

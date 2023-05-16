@@ -14,7 +14,7 @@ struct GroupRow: View {
     var body: some View {
         VStack{
             HStack{
-                group.type.description
+                group.type.typeImage
                 Divider()
                 Text(group.initialAdress)
                     .lineLimit(1)
@@ -30,19 +30,21 @@ struct GroupRow: View {
             HStack{
                 VStack{
                     HStack{
-                        Text(group.monday ? "S" : "_")
+//                        Text(group.monday ? "S" : "_")
+//
+//                        Text(group.tuesday ? "T" : "_")
+//
+//                        Text(group.wednesday ? "Q" : "_")
+//
+//                        Text(group.thursday ? "Q" : "_")
+//
+//                        Text(group.friday ? "S" : "_")
+//
+//                        Text(group.saturday ? "S" : "_")
+//
+//                        Text(group.sunday ? "D" : "_")
+                        WeekView(group: group, size: 15)
                         
-                        Text(group.tuesday ? "T" : "_")
-                        
-                        Text(group.wednesday ? "Q" : "_")
-                        
-                        Text(group.thursday ? "Q" : "_")
-                        
-                        Text(group.friday ? "S" : "_")
-                        
-                        Text(group.saturday ? "S" : "_")
-                        
-                        Text(group.sunday ? "D" : "_")
                     }
                     Spacer()
                     HStack{

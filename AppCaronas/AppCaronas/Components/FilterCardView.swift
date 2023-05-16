@@ -17,7 +17,7 @@ struct FilterCardView: View {
                     .padding()
                     .foregroundColor(.white)
                 VStack(spacing: 30) {
-                    WeekView(size: 30)
+                    WeekButtonView(size: 30)
                     RouteSelectionView()
                     TimeSelectionView()
                     TransportView()
