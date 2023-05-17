@@ -37,6 +37,7 @@
 		B12F044B2A12BB95006F1828 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F044A2A12BB95006F1828 /* LocationSearchViewModel.swift */; };
 		B12F044E2A12BBAA006F1828 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F044D2A12BBAA006F1828 /* LocationManager.swift */; };
 		B12F04512A12BBBA006F1828 /* Uber2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F04502A12BBBA006F1828 /* Uber2_0App.swift */; };
+		B18688FD2A146B540066E2A6 /* UserCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18688FC2A146B540066E2A6 /* UserCRUD.swift */; };
 		B1CA3AB22A0C23AF00E8495F /* AppCaronasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CA3AB12A0C23AF00E8495F /* AppCaronasApp.swift */; };
 		B1CA3AB42A0C23AF00E8495F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CA3AB32A0C23AF00E8495F /* ContentView.swift */; };
 		B1CA3AB62A0C23B000E8495F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CA3AB52A0C23B000E8495F /* Assets.xcassets */; };
@@ -76,6 +77,7 @@
 		B12F044A2A12BB95006F1828 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 		B12F044D2A12BBAA006F1828 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B12F04502A12BBBA006F1828 /* Uber2_0App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Uber2_0App.swift; sourceTree = "<group>"; };
+		B18688FC2A146B540066E2A6 /* UserCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCRUD.swift; sourceTree = "<group>"; };
 		B1CA3AAE2A0C23AF00E8495F /* AppCaronas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppCaronas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1CA3AB12A0C23AF00E8495F /* AppCaronasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCaronasApp.swift; sourceTree = "<group>"; };
 		B1CA3AB32A0C23AF00E8495F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 			children = (
 				B1CA3AC02A0C24B000E8495F /* CloudKitUtility.swift */,
 				B1CA3AC22A0C253900E8495F /* GroupCRUD.swift */,
+				B18688FC2A146B540066E2A6 /* UserCRUD.swift */,
 			);
 			path = CloudKit;
 			sourceTree = "<group>";
@@ -317,7 +320,8 @@
 				7B7E33872A0D81CD00B70DE8 /* Group.swift in Sources */,
 				7B7E33892A0D81EB00B70DE8 /* Person.swift in Sources */,
 				1CB4C0642A12AE8F004E9410 /* WeekButtonView.swift in Sources */,
-				1CB4C0642A12AE8F004E9410 /* WeekView.swift in Sources */,
+				B18688FD2A146B540066E2A6 /* UserCRUD.swift in Sources */,
+				1CB4C0642A12AE8F004E9410 /* WeekButtonView.swift in Sources */,
 				B12F04482A12BB82006F1828 /* MapViewState.swift in Sources */,
 				B12F04402A12BB51006F1828 /* LocationSearchView.swift in Sources */,
 				B12F04452A12BB75006F1828 /* HomeView.swift in Sources */,
