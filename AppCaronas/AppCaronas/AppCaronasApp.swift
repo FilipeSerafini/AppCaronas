@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct AppCaronasApp: App {
+    @State var nomeRua: String = " "
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(nomeRua: $nomeRua)
         }
     }
 }

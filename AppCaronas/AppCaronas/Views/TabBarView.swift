@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @Binding var nomeRua : String
+
     var body: some View {
         TabView {
-            FeedView()
+            FeedView(nomeRua: $nomeRua)
                 .tabItem {
                     VStack {
                         Label("Ofertas", systemImage: "person.2.wave.2.fill")
                     }
                 }
             
-            BuscarView()
+            BuscarView(nomeRua: $nomeRua)
                 .tabItem {
                     VStack {
                         Label("Buscar", systemImage: "magnifyingglass")
@@ -41,8 +43,4 @@ struct TabBarView: View {
     }
 }
 
-struct TabBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        TabBarView()
-    }
-}
+

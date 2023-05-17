@@ -13,25 +13,26 @@ struct LocationSearchResultCell: View {
     
     var body: some View {
         HStack {
-            Image(systemName: "mappin.circle.fill")
-                .resizable()
-                .foregroundColor(.blue)
-                .accentColor(.white)
-                .frame(width: 40, height: 40)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.body)
-                Text(subtitle)
-                    .font(.body)
-                    .foregroundColor(.gray)
-                
-                Divider()
-            }
-            .padding(.leading, 8)
-            .padding(.vertical, 8)
-        }
-        .padding(.leading)
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Image(systemName: "mappin.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(Color(.lightGray))
+                                .frame(width: 20)
+                            
+                            Text(title)
+                                .foregroundColor(Color(.lightGray))
+                        }
+                        HStack() {
+                            Text("" + subtitle)
+                                .lineLimit(1)
+                        }
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .frame(maxWidth: UIScreen.main.bounds.width)
     }
 }
 

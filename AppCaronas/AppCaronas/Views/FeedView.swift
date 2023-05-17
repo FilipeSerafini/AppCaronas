@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct FeedView: View {
+    @Binding var nomeRua : String
     var body: some View {
         NavigationStack{
             VStack {
                 ScrollView{
                     ForEach(groups, id: \.self){ group in
                         NavigationLink{
-//                            GroupDetailsView(group: group)
+                            GroupDetailsView(group: group)
                         }label: {
                             GroupRow(group: group)
                         }
@@ -41,8 +42,4 @@ struct FeedView: View {
     }
 }
 
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedView()
-    }
-}
+

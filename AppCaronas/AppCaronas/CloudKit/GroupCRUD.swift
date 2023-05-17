@@ -10,7 +10,6 @@ import CloudKit
 import Combine
 
 class RideGroupCRUD: ObservableObject {
-    
     @Published var groups: [RideGroup] = []
     var cancellables = Set<AnyCancellable>()
     

@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct FilteredGroupView: View {
+    @Binding var nomeRua : String
     var body: some View {
-        BuscarView()
+        BuscarView(nomeRua: $nomeRua)
     }
 }
 
-struct FilteredGroupView_Previews: PreviewProvider {
-    static var previews: some View {
-        FilteredGroupView()
-    }
-}
+

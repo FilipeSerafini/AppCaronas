@@ -28,8 +28,10 @@ struct CreateGroupView: View {
     @Namespace private var animation
     @State var swapped = false
     
-    @State var userAdress = ""
-    
+    @StateObject var locationViewModelReserva = LocationSearchViewModel()
+
+    @State var nomeRua = " "
+
     var body: some View {
         VStack{
             VStack(alignment: .leading){
@@ -75,10 +77,40 @@ struct CreateGroupView: View {
                                     Text("Academy")
                                 }
                                 .matchedGeometryEffect(id: "academy", in: animation)
-                                TextField("Para", text: $userAdress)
+//                                NavigationLink {
+//                                    AddressSearchView()
+//                                } label: {
+//                                    ZStack(alignment: .leading) {
+//                                        RoundedRectangle(cornerRadius: 5)
+//                                            .frame(width: 260, height: 25)
+//                                            .foregroundColor(Color(.lightGray))
+//                                        Text(" Para")
+//                                            .foregroundColor(.black)
+//                                    }
+//                                }
+                                NavigationLink{
+                                    HomeView(selecao: false, nomeRua: $nomeRua).environmentObject(locationViewModelReserva)
+                                }label: {
+                                    Text(nomeRua == " " ? "Para" : nomeRua)
+                                }
                                 .matchedGeometryEffect(id: "addressBar", in: animation)
                             } else {
-                                TextField("De", text: $userAdress)
+//                                NavigationLink {
+//                                    AddressSearchView()
+//                                } label: {
+//                                    ZStack(alignment: .leading) {
+//                                        RoundedRectangle(cornerRadius: 5)
+//                                            .frame(width: 260, height: 25)
+//                                            .foregroundColor(Color(.lightGray))
+//                                        Text(" De")
+//                                            .foregroundColor(.black)
+//                                    }
+//                                }
+                                NavigationLink{
+                                    HomeView(selecao: false, nomeRua: $nomeRua).environmentObject(locationViewModelReserva)
+                                }label: {
+                                    Text(nomeRua == " " ? "De" : nomeRua)
+                                }
                                 .matchedGeometryEffect(id: "addressBar", in: animation)
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 10)
@@ -100,6 +132,7 @@ struct CreateGroupView: View {
                 Text("Dia(s):")
             }
             VStack{
+//                WeekButtonView(size: 30)
                 HStack(spacing: 10) {
                     ForEach(0..<letters.count, id: \.self) { i in
                         Button {
@@ -123,13 +156,12 @@ struct CreateGroupView: View {
                 }
                     .padding()
                 
-                //MARK: TRANSFORMAR EM STRING ANTES DE CHAMAR A FUNCAO DO BACK
                 DatePicker("Select Time", selection: $selectedDate, displayedComponents: .hourAndMinute)
                     .datePickerStyle(.compact)
                     .labelsHidden()
                     .padding()
                 
-                //MARK: TRANSFORMAR ESSE PICK EM STRING ANTES DE CHAMAR A FUNCAO DO BACK
+                
                 List {
                     Picker("Tipo de companhia", selection: $selectedType) {
                         Text("Carro").tag(RideType.car)
@@ -210,9 +242,9 @@ struct CreateGroupView: View {
     func setAdresses() {
         if !swapped {
             initalAdress = "Academy"
-            finalAdress = userAdress
+            finalAdress = nomeRua
         } else {
-            initalAdress = userAdress
+            initalAdress = nomeRua
             finalAdress = "Academy"
         }
     }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FilterCardView: View {
+    @Binding var nomeRua : String
     var body: some View {
         VStack(spacing: -6) {
             ZStack {
@@ -24,7 +25,7 @@ struct FilterCardView: View {
                 }
             }
             NavigationLink {
-                FilteredGroupView()
+                FilteredGroupView(nomeRua: $nomeRua)
             } label: {
                 ZStack{
                     RoundedRectangle(cornerRadius: 20)
@@ -39,9 +40,3 @@ struct FilterCardView: View {
     }
 }
 
-struct FilterCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterCardView()
-            .background(Color(.red))
-    }
-}

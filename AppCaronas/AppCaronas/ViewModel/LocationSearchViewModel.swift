@@ -7,6 +7,7 @@
 
 import Foundation
 import MapKit
+import SwiftUI
 
 class LocationSearchViewModel: NSObject, ObservableObject {
     
@@ -14,11 +15,13 @@ class LocationSearchViewModel: NSObject, ObservableObject {
     
     @Published var results = [MKLocalSearchCompletion]()
     @Published var selectedLocationCoordinate: CLLocationCoordinate2D?
+    //@Binding var ender: CLLocationCoordinate2D
     
     private let searchCompleter = MKLocalSearchCompleter()
     var queryFragment: String = "" {
         didSet {
             searchCompleter.queryFragment = queryFragment
+
         }
     }
     
@@ -39,7 +42,7 @@ class LocationSearchViewModel: NSObject, ObservableObject {
             guard let item = response?.mapItems.first else { return }
             let coordinate = item.placemark.coordinate
             self.selectedLocationCoordinate = coordinate
-            print("DEBUG: Location coordinates \(coordinate)")
+            print("DEBUG: Location coordinates SE LIGA \(coordinate)")
         }
     }
     

@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Binding var nomeRua : String
     var body: some View {
-        TabBarView()
+        TabBarView(nomeRua: $nomeRua)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+
