@@ -17,7 +17,7 @@
 		1CB4C0722A12AF75004E9410 /* AddressSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4C0712A12AF75004E9410 /* AddressSearchView.swift */; };
 		1CB4C0742A12AF8E004E9410 /* FilteredGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4C0732A12AF8E004E9410 /* FilteredGroupView.swift */; };
 		7B7E33842A0D81A500B70DE8 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7E33832A0D81A500B70DE8 /* FeedView.swift */; };
-		7B7E33872A0D81CD00B70DE8 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7E33862A0D81CD00B70DE8 /* Group.swift */; };
+		7B7E33872A0D81CD00B70DE8 /* RideGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7E33862A0D81CD00B70DE8 /* RideGroup.swift */; };
 		7B7E33892A0D81EB00B70DE8 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7E33882A0D81EB00B70DE8 /* Person.swift */; };
 		7B7E338E2A0D82E500B70DE8 /* GroupRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7E338D2A0D82E500B70DE8 /* GroupRow.swift */; };
 		7B7E33902A0D83B200B70DE8 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7E338F2A0D83B200B70DE8 /* TabBarView.swift */; };
@@ -57,7 +57,7 @@
 		1CB4C0712A12AF75004E9410 /* AddressSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchView.swift; sourceTree = "<group>"; };
 		1CB4C0732A12AF8E004E9410 /* FilteredGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredGroupView.swift; sourceTree = "<group>"; };
 		7B7E33832A0D81A500B70DE8 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
-		7B7E33862A0D81CD00B70DE8 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		7B7E33862A0D81CD00B70DE8 /* RideGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideGroup.swift; sourceTree = "<group>"; };
 		7B7E33882A0D81EB00B70DE8 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		7B7E338D2A0D82E500B70DE8 /* GroupRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRow.swift; sourceTree = "<group>"; };
 		7B7E338F2A0D83B200B70DE8 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				B12F04472A12BB82006F1828 /* MapViewState.swift */,
-				7B7E33862A0D81CD00B70DE8 /* Group.swift */,
+				7B7E33862A0D81CD00B70DE8 /* RideGroup.swift */,
 				7B7E33882A0D81EB00B70DE8 /* Person.swift */,
 			);
 			path = Model;
@@ -317,7 +317,7 @@
 				B12F043E2A12BB51006F1828 /* LocationSearchActivationView.swift in Sources */,
 				B12F04442A12BB75006F1828 /* UberMapViewRepresentable.swift in Sources */,
 				1CB4C0722A12AF75004E9410 /* AddressSearchView.swift in Sources */,
-				7B7E33872A0D81CD00B70DE8 /* Group.swift in Sources */,
+				7B7E33872A0D81CD00B70DE8 /* RideGroup.swift in Sources */,
 				7B7E33892A0D81EB00B70DE8 /* Person.swift in Sources */,
 				1CB4C0642A12AE8F004E9410 /* WeekButtonView.swift in Sources */,
 				B18688FD2A146B540066E2A6 /* UserCRUD.swift in Sources */,
