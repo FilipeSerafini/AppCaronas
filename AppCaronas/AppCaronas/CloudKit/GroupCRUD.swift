@@ -11,7 +11,7 @@ import Combine
 
 class RideGroupCRUD: ObservableObject {
     
-    @Published var groups: [Group] = []
+    @Published var groups: [RideGroup] = []
     var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -20,7 +20,7 @@ class RideGroupCRUD: ObservableObject {
 
     
     //criar e adicionar o grupo no banco
-    func addGroup(group: Group) {
+    func addGroup(group: RideGroup) {
         
         CloudKitUtility.add(item: group) { result in
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -73,6 +73,8 @@ class RideGroupCRUD: ObservableObject {
             }
             .store(in: &cancellables)
     }
+    
+    
     
 }
 

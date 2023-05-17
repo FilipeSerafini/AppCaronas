@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GroupRow: View {
     
-    var group: Group
+    var group: RideGroup
     
     var body: some View {
         VStack{
@@ -49,7 +49,7 @@ struct GroupRow: View {
                     Spacer()
                     HStack{
                         Image(systemName: "clock")
-                        Text(group.time)
+                        Text(group.hour)
                     }
                 }
                 Spacer()

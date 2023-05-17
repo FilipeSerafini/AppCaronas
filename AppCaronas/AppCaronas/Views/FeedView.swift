@@ -14,7 +14,7 @@ struct FeedView: View {
                 ScrollView{
                     ForEach(groups, id: \.self){ group in
                         NavigationLink{
-                            GroupDetailsView(group: group)
+//                            GroupDetailsView(group: group)
                         }label: {
                             GroupRow(group: group)
                         }

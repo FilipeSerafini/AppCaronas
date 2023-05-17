@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import CloudKit
 
-
 enum RideType{
     case car
     case motorcycle
@@ -17,6 +16,25 @@ enum RideType{
     case uber
     case walk
     case bicycle
+    
+    init(value: String) {
+        switch value {
+        case "Carro":
+            self = .car
+        case "Moto":
+            self = .motorcycle
+        case "Uber":
+            self = .uber
+        case "Ônibus":
+            self = .bus
+        case "Bicicleta":
+            self = .bicycle
+        case "Caminhada":
+            self = .walk
+        default:
+              self = .car
+        }
+    }
     
     var id: Self {self}
     
@@ -72,16 +90,14 @@ enum RideType{
     }
 }
 
-struct Week{
-    var selected: [Bool] = [false, false, false, false, false, false, false]
-    let letters: [String] = ["s","t","q","q","s","s","d"]
-    
-}
+//MARK: VERIFICAR SE É NECESSARIO HASHABLE E SUAS FUNCOES E O ATRIBUTO ID JA QUE VAMOS PUXAR DO BANCO
+//MARK: TROCAR NOME DA STRUCT
 
-struct Group: Hashable, CloudKitItemProtocol{
+struct RideGroup: Hashable, CloudKitItemProtocol {
     
     var record: CKRecord
 
+    //MARK: VERIFICAR SE PRECISA ID
     var id: String = UUID().uuidString
     var type: RideType
     var initialAdress: String
@@ -89,34 +105,36 @@ struct Group: Hashable, CloudKitItemProtocol{
     var admin: String
     var maxMembers: Int
     var members: [String]
-    var price: Bool
-    var time: String
-    var week: Week
+//    var isPriced: Int
+    var hour: String
+    var daysOfTheWeek: [Int]
+    
+    
     
     //init para transformar os atributos em records para o banco, e determinar o recordType do grupo
     init?(
-        type: RideType,
+        type: String,
         initialAdress: String,
         finalAdress: String,
         admin: String,
         maxMembers: Int,
         members: [String],
-        price: Bool,
-        time: String,
-        week: Week) {
+//        isPriced: Int,
+        hour: String,
+        daysOfTheWeek: [Int]) {
+            
             
             let record = CKRecord(recordType: "Group")
             
-            //MARK: DEFINIR COMO VAO SER PASSADOS OS TIPOS NAO NATURAIS, E VERIFICAR O PRICE(?)
-//            record["rideType"] = type
+            record["rideType"] = type
             record["initialAdress"] = initialAdress
             record["finalAdress"] = finalAdress
             record["admin"] = admin
             record["maxMembers"] = maxMembers
             record["members"] = members
-            record["price"] = price //deveria chegar um valor aqui, nao? (nao esquecer de alterar no outro init tambem
-            record["time"] = time
-//            record["week"] = week
+//            record["isPriced"] = isPriced
+            record["hour"] = hour
+            record["daysOfTheWeek"] = daysOfTheWeek
             
             
             
@@ -126,44 +144,46 @@ struct Group: Hashable, CloudKitItemProtocol{
     //init para criar o objeto e atribuir o record a ele
     init?(record: CKRecord) {
         
-//        guard let rideType = record["rideType"] as? String else { return nil }
+        guard let rideType = record["rideType"] as? String else { return nil }
         guard let initialAdress = record["initialAdress"] as? String else { return nil }
         guard let finalAdress = record["finalAdress"] as? String else { return nil }
         guard let admin = record["admin"] as? String else { return nil }
         guard let maxMembers = record["maxMembers"] as? Int else { return nil }
         guard let members = record["members"] as? [String] else { return nil }
-        guard let price = record["price"] as? Bool else { return nil }
-        guard let time = record["time"] as? String else { return nil }
-        //        guard let week = record["week"] as? String else { return nil }
+//        guard let isPriced = record["isPriced"] as? Int else { return nil }
+        guard let hour = record["hour"] as? String else { return nil }
+        guard let daysOfTheWeek = record["daysOfTheWeek"] as? [Int] else { return nil }
         
-        
-//        self.type =
+        self.type = RideType(value: rideType)
         self.initialAdress = initialAdress
         self.finalAdress = finalAdress
         self.admin = admin
         self.maxMembers = maxMembers
         self.members = members
-        self.price = price
-        self.time = time
-//        self.week =
+//        self.isPriced = isPriced
+        self.hour = hour
+        self.daysOfTheWeek = daysOfTheWeek
         
         self.record = record
         
     }
     
     
-    
+    static func == (lhs: RideGroup, rhs: RideGroup) -> Bool {
+        lhs.id == rhs.id
+    }
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+
     
     
 }
 
 var groups = [g1, g2]
 
-var weekTeste = Week(selected: [true, false, true, false, false, false, false])
 
 //MARK: VERIFICAR FORCED UNWRAP AQUI
-var g1: Group = Group(type: .car, initialAdress: "Rua João Alfredo 277", finalAdress: "PUCRS", admin: "userID", maxMembers: 4, members: [p2.name, p3.name], price: true, time: "12:30", week: weekTeste)!
-var g2: Group = Group(type: .car, initialAdress: "PUCRS", finalAdress: "Rua João Alfredo 277", admin: "userID2", maxMembers: 4, members: [p4.name, p5.name], price: false, time: "17:30", week: weekTeste)!
+var g1: RideGroup = RideGroup(type: "Carro", initialAdress: "Rua João Alfredo 277", finalAdress: "PUCRS", admin: "userID", maxMembers: 4, members: [p2.name, p3.name], hour: "15:00", daysOfTheWeek: [1, 0, 1, 0, 0, 0, 0])!
+var g2: RideGroup = RideGroup(type: "Uber", initialAdress: "PUCRS", finalAdress: "Rua João Alfredo 277", admin: "userID2", maxMembers: 4, members: [p4.name, p5.name], hour: "15:00", daysOfTheWeek: [1, 0, 1, 0, 0, 0, 0])!

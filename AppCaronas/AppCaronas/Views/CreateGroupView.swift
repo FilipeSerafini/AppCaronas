@@ -10,18 +10,25 @@ import SwiftUI
 
 
 struct CreateGroupView: View {
+    
+    let groupOperations: RideGroupCRUD = RideGroupCRUD()
+    
+    
     @State var selectedDate = Calendar.current.date(bySettingHour: 13, minute: 30, second: 0, of: Date())!
     
-    @State var selectedDay: [Bool] = [false, false, false, false, false, false, false]
-    let letters: [String] = ["s","t","q","q","s","s","d"]
-    
+    @State var selectedDays: [Bool] = [false, false, false, false, false, false, false]
     @State var selectedType: RideType = .car
-    @State private var selectedHour = 2
+    @State private var maxMembers = 2
+    @State var initalAdress: String = ""
+    @State var finalAdress: String = ""
+    @State var userID: String = ""
+    
+    let letters: [String] = ["s","t","q","q","s","s","d"]
     
     @Namespace private var animation
     @State var swapped = false
     
-    @State var location = ""
+    @State var userAdress = ""
     
     var body: some View {
         VStack{
@@ -68,32 +75,10 @@ struct CreateGroupView: View {
                                     Text("Academy")
                                 }
                                 .matchedGeometryEffect(id: "academy", in: animation)
-//                                NavigationLink {
-//                                    AddressSearchView()
-//                                } label: {
-//                                    ZStack(alignment: .leading) {
-//                                        RoundedRectangle(cornerRadius: 5)
-//                                            .frame(width: 260, height: 25)
-//                                            .foregroundColor(Color(.lightGray))
-//                                        Text(" Para")
-//                                            .foregroundColor(.black)
-//                                    }
-//                                }
-                                TextField("Para", text: $location)
+                                TextField("Para", text: $userAdress)
                                 .matchedGeometryEffect(id: "addressBar", in: animation)
                             } else {
-//                                NavigationLink {
-//                                    AddressSearchView()
-//                                } label: {
-//                                    ZStack(alignment: .leading) {
-//                                        RoundedRectangle(cornerRadius: 5)
-//                                            .frame(width: 260, height: 25)
-//                                            .foregroundColor(Color(.lightGray))
-//                                        Text(" De")
-//                                            .foregroundColor(.black)
-//                                    }
-//                                }
-                                TextField("De", text: $location)
+                                TextField("De", text: $userAdress)
                                 .matchedGeometryEffect(id: "addressBar", in: animation)
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 10)
@@ -115,16 +100,15 @@ struct CreateGroupView: View {
                 Text("Dia(s):")
             }
             VStack{
-//                WeekButtonView(size: 30)
                 HStack(spacing: 10) {
                     ForEach(0..<letters.count, id: \.self) { i in
                         Button {
-                            selectedDay[i].toggle()
+                            selectedDays[i].toggle()
                         } label: {
                             ZStack {
                                 Circle()
                                     .frame(width: CGFloat(30 + 4))
-                                    .foregroundColor(selectedDay[i] ? .green : Color(.lightGray))
+                                    .foregroundColor(selectedDays[i] ? .green : Color(.lightGray))
                                 Image(systemName: "\(letters[i]).circle.fill")
                                     .resizable()
                                     .scaledToFit()
@@ -139,12 +123,13 @@ struct CreateGroupView: View {
                 }
                     .padding()
                 
+                //MARK: TRANSFORMAR EM STRING ANTES DE CHAMAR A FUNCAO DO BACK
                 DatePicker("Select Time", selection: $selectedDate, displayedComponents: .hourAndMinute)
                     .datePickerStyle(.compact)
                     .labelsHidden()
                     .padding()
                 
-                
+                //MARK: TRANSFORMAR ESSE PICK EM STRING ANTES DE CHAMAR A FUNCAO DO BACK
                 List {
                     Picker("Tipo de companhia", selection: $selectedType) {
                         Text("Carro").tag(RideType.car)
@@ -156,7 +141,7 @@ struct CreateGroupView: View {
                     }
                     //                            .pickerStyle(.navigationLink)
                     
-                    Picker("Número máximo de participantes", selection: $selectedHour) {
+                    Picker("Número máximo de participantes", selection: $maxMembers) {
                         Text("2").tag(2)
                         Text("3").tag(3)
                         Text("4").tag(4)
@@ -174,6 +159,17 @@ struct CreateGroupView: View {
                 
                 Button{
                     
+                    let daysInt: [Int] = convertWeekToInt(daysOfTheWeek: selectedDays)
+                    setAdresses()
+                    self.userID = UserCRUD.getUserID()
+                    let hourString = convertHourToString()
+                    
+                    
+                    
+                    let newGroup: RideGroup = RideGroup(type: selectedType.description, initialAdress: initalAdress, finalAdress: finalAdress, admin: userID, maxMembers: maxMembers, members: [], hour: hourString, daysOfTheWeek: daysInt)!
+                    
+                    
+                    groupOperations.addGroup(group: newGroup)
                 }label: {
                     ZStack{
                         Rectangle()
@@ -194,6 +190,33 @@ struct CreateGroupView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
+    
+    
+    func convertHourToString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        let hourString = dateFormatter.string(from: selectedDate)
+        
+        return hourString
+    }
+    
+    
+    func convertWeekToInt(daysOfTheWeek: [Bool]) -> [Int] {
+        let intArray = daysOfTheWeek.map{ $0 ? 1 : 0 }
+        return intArray
+    }
+    
+    func setAdresses() {
+        if !swapped {
+            initalAdress = "Academy"
+            finalAdress = userAdress
+        } else {
+            initalAdress = userAdress
+            finalAdress = "Academy"
+        }
+    }
+    
 }
 
 struct CreateGroupView_Previews: PreviewProvider {
