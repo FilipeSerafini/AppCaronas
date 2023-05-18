@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct FeedView: View {
+    
+    @StateObject var gc: RideGroupCRUD = RideGroupCRUD()
+
     @Binding var nomeRua : String
     var body: some View {
         NavigationStack{
             VStack {
                 ScrollView{
-                    ForEach(groups, id: \.self){ group in
+                    ForEach(gc.groups, id: \.self){ group in
                         NavigationLink{
                             GroupDetailsView(group: group)
                         }label: {

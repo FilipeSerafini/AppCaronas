@@ -22,6 +22,7 @@ struct CreateGroupView: View {
     @State var initalAdress: String = ""
     @State var finalAdress: String = ""
     @State var userID: String = ""
+    @State var userName: String = ""
     
     let letters: [String] = ["s","t","q","q","s","s","d"]
     
@@ -202,11 +203,22 @@ struct CreateGroupView: View {
                     let daysInt: [Int] = convertWeekToInt(daysOfTheWeek: selectedDays)
                     setAdresses()
                     self.userID = UserCRUD.getUserID()
+                    self.userName = UserCRUD.getUserName()
                     let hourString = convertHourToString()
                     
                     
                     
-                    let newGroup: RideGroup = RideGroup(type: selectedType.description, initialAdress: initalAdress, finalAdress: finalAdress, admin: userID, maxMembers: maxMembers, members: [], hour: hourString, daysOfTheWeek: daysInt, userAdressLat: String(coordRua.latitude), userAdressLong: String(coordRua.longitude))!
+                    let newGroup: RideGroup = RideGroup(type: selectedType.description,
+                                                        initialAdress: initalAdress,
+                                                        finalAdress: finalAdress,
+                                                        admin: userID,
+                                                        maxMembers: maxMembers,
+                                                        members: [userID],
+                                                        membersNames: [userName],
+                                                        hour: hourString,
+                                                        daysOfTheWeek: daysInt,
+                                                        userAdressLat: String(coordRua.latitude),
+                                                        userAdressLong: String(coordRua.longitude))!
                     
                     
                     groupOperations.addGroup(group: newGroup)

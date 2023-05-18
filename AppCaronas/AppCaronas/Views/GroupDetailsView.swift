@@ -196,21 +196,21 @@ struct GroupDetailsView: View {
                     }
                     .padding(.bottom, 15)
                     HStack{
-                        VStack{
-                            Image(systemName: "person.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color(.lightGray))
-                            Text(group.admin)
-                                .lineLimit(2)
-                        }
-                        .frame(width: 60, height: 80)
-                        .padding(.horizontal, 10)
-                        ForEach(group.members, id: \.self){ member in
+//                        VStack{
+//                            Image(systemName: "person.circle.fill")
+//                                .resizable()
+//                                .foregroundColor(Color(.lightGray))
+//                            Text(group.admin)
+//                                .lineLimit(2)
+//                        }
+//                        .frame(width: 60, height: 80)
+//                        .padding(.horizontal, 10)
+                        ForEach(group.membersNames, id: \.self){ memberName in
                             VStack{
                                 Image(systemName: "person.circle.fill")
                                     .resizable()
                                     .foregroundColor(Color(.lightGray))
-                                Text(member)
+                                Text(memberName)
                                     .lineLimit(2)
                             }
                             .frame(width: 60, height: 80)

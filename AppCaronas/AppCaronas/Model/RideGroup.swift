@@ -107,7 +107,7 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
     var admin: String
     var maxMembers: String
     var members: [String]
-//    var isPriced: Int
+    var membersNames: [String]
     var hour: String
     var daysOfTheWeek: [Int]
     
@@ -122,6 +122,7 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
         daysOfTheWeek = []
         userAdressLat = "oi"
         userAdressLong = "asdad"
+       membersNames = []
 
         id = UUID().uuidString
         self.record = CKRecord(recordType: "Group")
@@ -135,28 +136,30 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
         admin: String,
         maxMembers: String,
         members: [String],
+        membersNames: [String],
         hour: String,
         daysOfTheWeek: [Int],
         userAdressLat: String,
         userAdressLong: String
     ) {
-            
-            
-            let record = CKRecord(recordType: "Group")
-            
-            record["rideType"] = type
-            record["initialAdress"] = initialAdress
-            record["finalAdress"] = finalAdress
-            record["admin"] = admin
-            record["maxMembers"] = maxMembers
-            record["members"] = members
-            record["hour"] = hour
-            record["daysOfTheWeek"] = daysOfTheWeek
-            record["userAdressLat"] = userAdressLat
-            record["userAdressLong"] = userAdressLong
-            
-            
-            
+        
+        
+        let record = CKRecord(recordType: "Group")
+        
+        record["rideType"] = type
+        record["initialAdress"] = initialAdress
+        record["finalAdress"] = finalAdress
+        record["admin"] = admin
+        record["maxMembers"] = maxMembers
+        record["members"] = members
+        record["membersNames"] = membersNames
+        record["hour"] = hour
+        record["daysOfTheWeek"] = daysOfTheWeek
+        record["userAdressLat"] = userAdressLat
+        record["userAdressLong"] = userAdressLong
+        
+        
+        
         self.init(record: record)
     }
     
@@ -169,7 +172,7 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
         guard let admin = record["admin"] as? String else { return nil }
         guard let maxMembers = record["maxMembers"] as? String else { return nil }
         guard let members = record["members"] as? [String] else { return nil }
-//        guard let isPriced = record["isPriced"] as? Int else { return nil }
+        guard let membersNames = record["membersNames"] as? [String] else { return nil }
         guard let hour = record["hour"] as? String else { return nil }
         guard let daysOfTheWeek = record["daysOfTheWeek"] as? [Int] else { return nil }
         guard let userAdressLat = record["userAdressLat"] as? String else { return nil }
@@ -181,6 +184,7 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
         self.admin = admin
         self.maxMembers = maxMembers
         self.members = members
+        self.membersNames = membersNames
         self.hour = hour
         self.daysOfTheWeek = daysOfTheWeek
         self.userAdressLat = userAdressLat
@@ -207,7 +211,7 @@ var groups = [g1, g2]
 
 
 //MARK: VERIFICAR FORCED UNWRAP AQUI
-var g1 = RideGroup(type: "Carro", initialAdress: "Academy", finalAdress: "Rua", admin: "Igor", maxMembers: "3", members: [] , hour: "15:00", daysOfTheWeek: [], userAdressLat: "-30.05985", userAdressLong: "-51.17175")!
+var g1 = RideGroup(type: "Carro", initialAdress: "Academy", finalAdress: "Rua", admin: "Igor", maxMembers: "3", members: [], membersNames: [], hour: "15:00", daysOfTheWeek: [], userAdressLat: "-30.05985", userAdressLong: "-51.17175")!
 var g2 = RideGroup()
 
 

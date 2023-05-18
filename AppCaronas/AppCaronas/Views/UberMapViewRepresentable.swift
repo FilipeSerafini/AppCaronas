@@ -19,9 +19,8 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     @Binding var vezes : Int
     @Binding var ender : CLLocationCoordinate2D
     var formaHome : Bool
-
     
-
+    
     
     func makeUIView(context: Context) -> some UIView {
         mapView.delegate = context.coordinator

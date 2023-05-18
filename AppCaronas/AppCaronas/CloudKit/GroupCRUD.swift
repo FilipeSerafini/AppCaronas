@@ -73,6 +73,25 @@ class RideGroupCRUD: ObservableObject {
             .store(in: &cancellables)
     }
     
+//    logica eh a mesma que adicionar, mas pegamos um record ja existente, mudamos o que queremos e salvamos de volta (funcao save)
+    func updateItem(group: RideGroup, groupMembers: [String], groupMembersNames: [String], newMemberID: String, newMemberName: String) {
+        
+        var newMembers = groupMembers
+        newMembers.append(newMemberID)
+        
+        var newMembersNames = groupMembersNames
+        newMembersNames.append(newMemberName)
+        
+        let record = group.record
+        record["members"] = newMembers
+        record["membersNames"] = newMembersNames
+        
+        CloudKitUtility.update(item: group) { [weak self] result in
+            print("UPDATE COMPLETED")
+            self?.fetchItems()
+        }
+    }
+    
     
     
 }

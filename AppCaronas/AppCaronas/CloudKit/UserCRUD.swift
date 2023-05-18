@@ -87,8 +87,32 @@ class UserCRUD: ObservableObject {
                 }
             } receiveValue: { [weak self] returnedName in
                 self?.userName = returnedName
+                UserDefaults.standard.set(returnedName, forKey: "userName")
             }
             .store(in: &cancellables)
+    }
+    
+//    func setUserName(userName: String) {
+//        
+//        CloudKitUtility.discoverUserIdentity()
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] completion in
+//                switch completion {
+//                case .finished:
+//                    break
+//                case .failure(let error):
+//                    self?.error = error.localizedDescription
+//                }
+//            } receiveValue: { [weak self] returnedName in
+//                UserDefaults.standard.set(returnedName, forKey: "userName")
+//            }
+//            .store(in: &cancellables)
+//        
+//       
+//    }
+    
+    static func getUserName() -> String {
+        return UserDefaults.standard.string(forKey: "userName") ?? "No Name"
     }
     
     func setUserID() {
@@ -97,7 +121,7 @@ class UserCRUD: ObservableObject {
             switch fetchCompletion {
             case .success(let userRecordID):
                 DispatchQueue.main.async {
-                    self.userID = "\(userRecordID.recordName)"
+                    self.userID = userRecordID.recordName
                     UserDefaults.standard.set(self.userID, forKey: "userID")
                 }
 
