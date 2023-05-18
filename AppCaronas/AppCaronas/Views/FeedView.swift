@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FeedView: View {
+    @Binding var nomeRua : String
     var body: some View {
         NavigationStack{
             VStack {
@@ -17,6 +18,7 @@ struct FeedView: View {
                             GroupDetailsView(group: group)
                         }label: {
                             GroupRow(group: group)
+                                .foregroundColor(.black)
                         }
                     }
                 }
@@ -31,7 +33,6 @@ struct FeedView: View {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 25, height: 25)
-//                        .padding(.top, 50)
                         .foregroundColor(.black)
                         .shadow(color: .black, radius: 30)
                 }
@@ -41,8 +42,4 @@ struct FeedView: View {
     }
 }
 
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedView()
-    }
-}
+

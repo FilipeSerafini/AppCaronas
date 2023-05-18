@@ -6,9 +6,81 @@
 //
 
 import SwiftUI
+import MapKit
+
+class MapViewDelegate: NSObject, MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let polyline = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: polyline)
+            renderer.strokeColor = UIColor.black
+            renderer.lineWidth = 6
+            return renderer
+        }
+        return MKOverlayRenderer(overlay: overlay)
+    }
+}
+
+struct MapView: UIViewRepresentable {
+    var sourceLocation : CLLocationCoordinate2D
+    var destinationLocation: CLLocationCoordinate2D
+
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
+        mapView.delegate = context.coordinator
+        return mapView
+    }
+    
+    func updateUIView(_ mapView: MKMapView, context: Context) {
+        mapView.removeOverlays(mapView.overlays) // Remove overlays anteriores
+        mapView.removeAnnotations(mapView.annotations)
+
+        
+        let sourcePlacemark = MKPlacemark(coordinate: sourceLocation)
+        let destinationPlacemark = MKPlacemark(coordinate: destinationLocation)
+
+        let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+        let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+
+        let directionsRequest = MKDirections.Request()
+        directionsRequest.source = sourceMapItem
+        directionsRequest.destination = destinationMapItem
+        directionsRequest.transportType = .walking
+
+        let directions = MKDirections(request: directionsRequest)
+        directions.calculate { response, error in
+            guard let response = response else {
+                if let error = error {
+                    print("Error getting directions: \(error.localizedDescription)")
+                }
+                return
+            }
+
+            let route = response.routes[0]
+            mapView.addOverlay(route.polyline, level: .aboveRoads)
+
+            let rect = route.polyline.boundingMapRect
+            mapView.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: ((sourceLocation.latitude + destinationLocation.latitude) / 2 ), longitude: ((sourceLocation.longitude + destinationLocation.longitude) / 2)), span: MKCoordinateSpan(latitudeDelta: 0.045, longitudeDelta: 0.045)), animated: true)
+            
+            let startAnnotation = MKPointAnnotation()
+                        startAnnotation.coordinate = self.sourceLocation
+                        mapView.addAnnotation(startAnnotation)
+
+                        let endAnnotation = MKPointAnnotation()
+                        endAnnotation.coordinate = self.destinationLocation
+                        mapView.addAnnotation(endAnnotation)
+
+        }
+    }
+    
+    func makeCoordinator() -> MapViewDelegate {
+        MapViewDelegate()
+    }
+}
 
 struct GroupDetailsView: View {
-    var group: Group
+    var group: RideGroup
     var body: some View {
         ScrollView{
             ZStack{
@@ -19,7 +91,7 @@ struct GroupDetailsView: View {
                     HStack {
                         VStack{
                             Spacer()
-                            Text(group.time)
+                            Text(group.hour)
                             Spacer()
                         }
                         
@@ -81,11 +153,16 @@ struct GroupDetailsView: View {
                         Spacer()
                     }
                     .padding(30)
+                
+                    MapView(sourceLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(group.userAdressLat)!, longitude: CLLocationDegrees(group.userAdressLong)!), destinationLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(-30.05985), longitude: CLLocationDegrees(-51.17175))).frame(height: 200)
+                    Text("⚠️ O Mapa tem limitações para a rota. Caso a rota não esteja aparecendo, espere 60 seg, volte e entre nesse card novamente!").font(.system(size: 10))
                 }
             }
             
             Divider()
-                .frame(height: 50)
+                .frame(minHeight: 5)
+                .background(Color(.lightGray))
+                .opacity(0.5)
             
             ZStack{
                 Rectangle()
@@ -96,24 +173,15 @@ struct GroupDetailsView: View {
                     WeekView(group: group,size: 30)
                     
                     Text("\(group.type.typeImage) \(group.type.descriptionDetailed)")
-                    
-                    if group.type == .car || group.type == .motorcycle || group.type == .uber{
-                        if group.price == true{
-                            ZStack{
-                                Rectangle()
-                                    .foregroundColor(.gray)
-                                    .cornerRadius(10)
-                                    .padding(.horizontal, 30)
-                                Text("$ Esta é uma carona com custos a dividir")
-                            }
-                        }
-                        
-                    }
-//                    Text(group.price ? "Esta é um" : )
-                    
+                        .padding(.vertical)
                 }
                 .padding(.vertical, 20)
             }
+            
+            Divider()
+                .frame(minHeight: 5)
+                .background(Color(.lightGray))
+                .opacity(0.5)
             
             ZStack{
                 Rectangle()
@@ -129,15 +197,23 @@ struct GroupDetailsView: View {
                     .padding(.bottom, 15)
                     HStack{
                         VStack{
-                            Image(systemName: group.leader.photo)
-                            Text(group.leader.name)
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .foregroundColor(Color(.lightGray))
+                            Text(group.admin)
+                                .lineLimit(2)
                         }
+                        .frame(width: 60, height: 80)
                         .padding(.horizontal, 10)
                         ForEach(group.members, id: \.self){ member in
                             VStack{
-                                Image(systemName: "person.circle")
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(Color(.lightGray))
                                 Text(member)
+                                    .lineLimit(2)
                             }
+                            .frame(width: 60, height: 80)
                             .padding(.horizontal, 10)
                         }
                     }
@@ -145,7 +221,35 @@ struct GroupDetailsView: View {
                 
             }
             
+            Divider()
+                .frame(minHeight: 5)
+                .background(Color(.lightGray))
+                .opacity(0.5)
+            //            Text("Map")
+            //                .font(.title2)
             
+            Spacer()
+            
+            
+//            if group.admin == usuarioatual{
+                Button{
+                    
+                }label: {
+                    Text("Excluir Grupo")
+                        
+                        .lineLimit(1)
+                        .frame(width: 150, height: 40)
+                        .foregroundColor(.white)
+                        .background(.red)
+                }
+                .cornerRadius(10)
+//            }else{
+//                Button{
+//
+//                }label: {
+//                    Text("Sair do Grupo")
+//                }
+//            }
             
         }
         .navigationBarTitle(group.initialAdress)

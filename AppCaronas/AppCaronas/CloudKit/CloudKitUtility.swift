@@ -74,7 +74,7 @@ extension CloudKitUtility {
         }
     }
     
-    static private func fetchUserRecordID(completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
+    static func fetchUserRecordID(completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
         CKContainer.default().fetchUserRecordID { returnedID, returnedError in
             if let id = returnedID {
                 completion(.success(id))

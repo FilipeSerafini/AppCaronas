@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import MapKit
 
 @main
 struct AppCaronasApp: App {
+    @State var nomeRua: String = " "
+    @State var coordRua: CLLocationCoordinate2D = CLLocationCoordinate2D()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(nomeRua: $nomeRua, coordRua: $coordRua)
         }
     }
 }

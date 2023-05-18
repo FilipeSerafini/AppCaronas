@@ -6,15 +6,14 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
+    @Binding var nomeRua : String
+    @Binding var coordRua : CLLocationCoordinate2D
     var body: some View {
-        TabBarView()
+        TabBarView(nomeRua: $nomeRua, coordRua: $coordRua)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+
