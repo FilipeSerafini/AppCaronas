@@ -14,6 +14,7 @@ struct LocationSearchView: View {
     @EnvironmentObject var viewModel: LocationSearchViewModel
     @Binding var vezes : Int
     @Binding var nomeRua : String
+    @Binding var coordRua : CLLocationCoordinate2D
 
     
     var body: some View {
@@ -48,6 +49,14 @@ struct LocationSearchView: View {
                             .onTapGesture {
                                 print(result.title)
                                 nomeRua = result.title//Guarda o Nome Da Rua
+                                let searchRequest = MKLocalSearch.Request(completion: result)
+                                                let search = MKLocalSearch(request: searchRequest)
+                                                search.start { response, error in
+                                                    if let mapItem = response?.mapItems.first {
+                                                        print("COORDINATES:", mapItem.placemark.coordinate)
+                                                        coordRua = mapItem.placemark.coordinate // Assign the coordinates to the coordRua variable
+                                                    }
+                                                }
                                 viewModel.selectedLocation(result)
                                 
                                 mapState = .locationSelected

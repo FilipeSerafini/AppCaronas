@@ -22,7 +22,7 @@ struct GroupRow: View {
                 Text(group.finalAdress)
                     .lineLimit(1)
                 Divider()
-                Text("Recorrente")
+                Image(systemName: "arrow.2.squarepath")
             }
             .padding(.top)
             .padding(.horizontal)
@@ -30,61 +30,23 @@ struct GroupRow: View {
             HStack{
                 VStack{
                     HStack{
-//                        Text(group.monday ? "S" : "_")
-//
-//                        Text(group.tuesday ? "T" : "_")
-//
-//                        Text(group.wednesday ? "Q" : "_")
-//
-//                        Text(group.thursday ? "Q" : "_")
-//
-//                        Text(group.friday ? "S" : "_")
-//
-//                        Text(group.saturday ? "S" : "_")
-//
-//                        Text(group.sunday ? "D" : "_")
                         WeekView(group: group, size: 15)
+                            .padding(.leading)
+                        Spacer()
                         
                     }
                     Spacer()
                     HStack{
-                        Image(systemName: "clock")
                         Text(group.hour)
+                            .padding(.leading)
+                        Spacer()
                     }
                 }
                 Spacer()
-                VStack{
-                    Text("\(group.members.count + 1) membros")
-                    HStack{
-                        if(group.members.count <= 2){
-                            Image(systemName: "person.crop.circle.fill")
-                                .resizable()
-                                .frame(width: 30,height: 30)
-                            
-                            ForEach(group.members, id: \.self){ member in
-                                Image(systemName: "person.crop.circle.fill")
-                                    .resizable()
-                                    .frame(width: 30,height: 30)
-                                
-                            }
-                            
-                        }else{
-                            Image(systemName: "person.crop.circle.fill")
-                                .resizable()
-                                .frame(width: 30,height: 30)
-                                .padding(.horizontal, -8)
-                            
-                            ForEach(group.members, id: \.self){ member in
-                                Image(systemName: "person.crop.circle.fill")
-                                    .resizable()
-                                    .frame(width: 30,height: 30)
-                                    .padding(.horizontal, -8)
-                            }
-                            Text("...")
-                                .font(.title)
-                            
-                        }
-                    }
+                HStack{
+                    Image(systemName: "person.fill.checkmark")
+                        .foregroundColor(.green)
+                    Text("\(group.members.count + 1)")
                 }
             }
             .padding(.horizontal)

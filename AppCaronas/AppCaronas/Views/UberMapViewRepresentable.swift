@@ -188,7 +188,7 @@ extension UberMapViewRepresentable {
         }
         
         func configurePolyLine(withDestinationCoordinate coordinate: CLLocationCoordinate2D) {
-            guard let userLocationCoordinate = self.userLocationCoordinate else { return }
+            //guard let userLocationCoordinate = self.userLocationCoordinate else { return }
             getDestinationRoute(from: CLLocationCoordinate2D(latitude: -30.05991, longitude: -51.17169), to: coordinate) { route in
                 self.parent.mapView.removeOverlays(self.parent.mapView.overlays)
                 self.parent.mapView.addOverlay(route.polyline)

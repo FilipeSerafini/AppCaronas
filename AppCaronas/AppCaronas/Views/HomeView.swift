@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct Endereco: Hashable {
-    var nome = ""
+    var nome = " "
     var location = CLLocationCoordinate2D()
     var destino = CLLocationCoordinate2D()
 
@@ -33,13 +33,14 @@ struct Endereco: Hashable {
 struct HomeView: View {
     @State private var mapState = MapViewState.noInput
     @State var controle = 0
-    @State var conjunto : Set<Endereco> = [Endereco(nome: "", location: CLLocationCoordinate2D(), destino: CLLocationCoordinate2D())]
+    @State var conjunto : Set<Endereco> = [Endereco(nome: " ", location: CLLocationCoordinate2D(), destino: CLLocationCoordinate2D())]
     @State var timeRemaining = 60
     @State var vezes = 0
     @State var ender = CLLocationCoordinate2D()
     var selecao : Bool
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Binding var nomeRua : String
+    @Binding var coordRua : CLLocationCoordinate2D
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -53,7 +54,7 @@ struct HomeView: View {
                     
                     ZStack{
                         if (mapState == .searchingForLocation) {
-                            LocationSearchView(mapState: $mapState, vezes: $vezes, nomeRua: $nomeRua)
+                            LocationSearchView(mapState: $mapState, vezes: $vezes, nomeRua: $nomeRua, coordRua: $coordRua)
                                 .ignoresSafeArea()
                             
                         } else if mapState == .noInput {
@@ -69,7 +70,7 @@ struct HomeView: View {
                                 .ignoresSafeArea()
                         }
                         if (selecao == true){
-                            PrintaMatch(conjunto: $conjunto).frame(height: UIScreen.main.bounds.height * 0.5)
+                            PrintaMatch(conjunto: $conjunto, coordRua: $coordRua, nomeRua: $nomeRua).frame(height: UIScreen.main.bounds.height * 0.5)
                         } else if (selecao == false && mapState == .locationSelected){
                             
                             Button{
@@ -103,16 +104,11 @@ struct HomeView: View {
 
 struct PrintaMatch: View {
     @Binding var conjunto : Set<Endereco>
+    @Binding var coordRua : CLLocationCoordinate2D
+    @Binding var nomeRua : String
     var body: some View {
         
-        ScrollView{
-            ForEach(Array(conjunto), id: \.self) { value in
-                if(value.nome != " "){
-                    Text("\(value.nome)\n")
-                }
-            }
-             
-        }
+        Text(" ")
         
     }
 }

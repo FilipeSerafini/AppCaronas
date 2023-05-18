@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct FilterCardView: View {
     @Binding var nomeRua : String
+    @Binding var coordRua : CLLocationCoordinate2D
     var body: some View {
         VStack(spacing: -6) {
             ZStack {
@@ -25,7 +27,7 @@ struct FilterCardView: View {
                 }
             }
             NavigationLink {
-                FilteredGroupView(nomeRua: $nomeRua)
+                FilteredGroupView(nomeRua: $nomeRua, coordRua: $coordRua)
             } label: {
                 ZStack{
                     RoundedRectangle(cornerRadius: 20)

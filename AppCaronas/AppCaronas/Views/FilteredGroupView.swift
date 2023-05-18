@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct FilteredGroupView: View {
     @Binding var nomeRua : String
+    @Binding var coordRua : CLLocationCoordinate2D
     var body: some View {
-        BuscarView(nomeRua: $nomeRua)
+        BuscarView(nomeRua: $nomeRua, coordRua: $coordRua)
     }
 }
 

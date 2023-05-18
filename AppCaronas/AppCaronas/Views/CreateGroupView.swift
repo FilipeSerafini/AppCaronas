@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import MapKit
 
 
 struct CreateGroupView: View {
@@ -18,7 +18,7 @@ struct CreateGroupView: View {
     
     @State var selectedDays: [Bool] = [false, false, false, false, false, false, false]
     @State var selectedType: RideType = .car
-    @State private var maxMembers = 2
+    @State var maxMembers: String = "2"
     @State var initalAdress: String = ""
     @State var finalAdress: String = ""
     @State var userID: String = ""
@@ -31,7 +31,9 @@ struct CreateGroupView: View {
     @StateObject var locationViewModelReserva = LocationSearchViewModel()
 
     @State var nomeRua = " "
+    @State var coordRua = CLLocationCoordinate2D()
 
+    
     var body: some View {
         VStack{
             VStack(alignment: .leading){
@@ -89,7 +91,7 @@ struct CreateGroupView: View {
 //                                    }
 //                                }
                                 NavigationLink{
-                                    HomeView(selecao: false, nomeRua: $nomeRua).environmentObject(locationViewModelReserva)
+                                    HomeView(selecao: false, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModelReserva)
                                 }label: {
                                     Text(nomeRua == " " ? "Para" : nomeRua)
                                 }
@@ -102,16 +104,15 @@ struct CreateGroupView: View {
 //                                        RoundedRectangle(cornerRadius: 5)
 //                                            .frame(width: 260, height: 25)
 //                                            .foregroundColor(Color(.lightGray))
-//                                        Text(" De")
-//                                            .foregroundColor(.black)
-//                                    }
-//                                }
+                                //                                        Text(" De")
+                                //                                            .foregroundColor(.black)
+                                //                                    }
+                                //                                }
                                 NavigationLink{
-                                    HomeView(selecao: false, nomeRua: $nomeRua).environmentObject(locationViewModelReserva)
-                                }label: {
-                                    Text(nomeRua == " " ? "De" : nomeRua)
-                                }
-                                .matchedGeometryEffect(id: "addressBar", in: animation)
+                                    HomeView(selecao: false, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModelReserva)                                }label: {
+                                        Text(nomeRua == " " ? "De" : nomeRua)
+                                    }
+                                    .matchedGeometryEffect(id: "addressBar", in: animation)
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 10)
                                         .fill(Color.white)
@@ -125,32 +126,31 @@ struct CreateGroupView: View {
                                 .matchedGeometryEffect(id: "academy", in: animation)
                             }
                         }
+                        Spacer()
                     }
+                    .padding(.leading)
                 }
                 .padding()
                 
                 Text("Dia(s):")
             }
-            VStack{
-//                WeekButtonView(size: 30)
+            VStack {
                 HStack(spacing: 10) {
                     ForEach(0..<letters.count, id: \.self) { i in
-                        Button {
+                        ZStack {
+                            Circle()
+                                .frame(width: CGFloat(30 + 4))
+                                .foregroundColor(selectedDays[i] ? .green : Color(.systemGray5))
+                            Image(systemName: "\(letters[i]).circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: CGFloat(30))
+                                .foregroundColor(Color(.systemGray4))
+                                .background(Color(.black))
+                                .clipShape(Circle())
+                        }
+                        .onTapGesture {
                             selectedDays[i].toggle()
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .frame(width: CGFloat(30 + 4))
-                                    .foregroundColor(selectedDays[i] ? .green : Color(.lightGray))
-                                Image(systemName: "\(letters[i]).circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: CGFloat(30))
-                                    .foregroundColor(Color(.lightGray))
-                                    .background(Color(.black))
-                                    .clipShape(Circle())
-                            }
-                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
@@ -161,8 +161,9 @@ struct CreateGroupView: View {
                     .labelsHidden()
                     .padding()
                 
-                
-                List {
+                HStack {
+                    Text("Tipo de companhia")
+                    Spacer()
                     Picker("Tipo de companhia", selection: $selectedType) {
                         Text("Carro").tag(RideType.car)
                         Text("Moto").tag(RideType.motorcycle)
@@ -171,8 +172,14 @@ struct CreateGroupView: View {
                         Text("Bicicleta").tag(RideType.bicycle)
                         Text("Caminhada").tag(RideType.walk)
                     }
-                    //                            .pickerStyle(.navigationLink)
-                    
+                    .tint(.black)
+                    .pickerStyle(.menu)
+                }
+                .padding(.horizontal)
+                
+                HStack {
+                    Text("Número máximo de participantes")
+                    Spacer()
                     Picker("Número máximo de participantes", selection: $maxMembers) {
                         Text("2").tag(2)
                         Text("3").tag(3)
@@ -183,11 +190,12 @@ struct CreateGroupView: View {
                         Text("8").tag(8)
                         Text("9").tag(9)
                         Text("10").tag(10)
-                        
                     }
-                    
+                    .tint(.black)
+                    .pickerStyle(.menu)
                 }
-                .listStyle(.inset)
+                .padding(.horizontal)
+                
                 
                 Button{
                     
@@ -198,7 +206,7 @@ struct CreateGroupView: View {
                     
                     
                     
-                    let newGroup: RideGroup = RideGroup(type: selectedType.description, initialAdress: initalAdress, finalAdress: finalAdress, admin: userID, maxMembers: maxMembers, members: [], hour: hourString, daysOfTheWeek: daysInt)!
+                    let newGroup: RideGroup = RideGroup(type: selectedType.description, initialAdress: initalAdress, finalAdress: finalAdress, admin: userID, maxMembers: maxMembers, members: [], hour: hourString, daysOfTheWeek: daysInt, userAdressLat: String(coordRua.latitude), userAdressLong: String(coordRua.longitude))!
                     
                     
                     groupOperations.addGroup(group: newGroup)

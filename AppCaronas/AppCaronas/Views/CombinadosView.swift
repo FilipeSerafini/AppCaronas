@@ -16,8 +16,6 @@ struct CombinadosView: View {
                 ForEach(person.groups, id: \.self){ group in
                     GroupRow(group: group)
                 }
-                
-                
             }
             .navigationTitle("Combinados")
         }

@@ -102,14 +102,30 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
     var type: RideType
     var initialAdress: String
     var finalAdress: String
+    var userAdressLat: String
+    var userAdressLong: String
     var admin: String
-    var maxMembers: Int
+    var maxMembers: String
     var members: [String]
 //    var isPriced: Int
     var hour: String
     var daysOfTheWeek: [Int]
     
-    
+   init() {
+        type = RideType(value: "Caminhada")
+        initialAdress = "0"
+        finalAdress = "0"
+        admin = "0"
+        maxMembers = "99999"
+        members = []
+        hour = "0"
+        daysOfTheWeek = []
+        userAdressLat = "oi"
+        userAdressLong = "asdad"
+
+        id = UUID().uuidString
+        self.record = CKRecord(recordType: "Group")
+    }
     
     //init para transformar os atributos em records para o banco, e determinar o recordType do grupo
     init?(
@@ -117,11 +133,13 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
         initialAdress: String,
         finalAdress: String,
         admin: String,
-        maxMembers: Int,
+        maxMembers: String,
         members: [String],
-//        isPriced: Int,
         hour: String,
-        daysOfTheWeek: [Int]) {
+        daysOfTheWeek: [Int],
+        userAdressLat: String,
+        userAdressLong: String
+    ) {
             
             
             let record = CKRecord(recordType: "Group")
@@ -132,9 +150,10 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
             record["admin"] = admin
             record["maxMembers"] = maxMembers
             record["members"] = members
-//            record["isPriced"] = isPriced
             record["hour"] = hour
             record["daysOfTheWeek"] = daysOfTheWeek
+            record["userAdressLat"] = userAdressLat
+            record["userAdressLong"] = userAdressLong
             
             
             
@@ -148,11 +167,13 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
         guard let initialAdress = record["initialAdress"] as? String else { return nil }
         guard let finalAdress = record["finalAdress"] as? String else { return nil }
         guard let admin = record["admin"] as? String else { return nil }
-        guard let maxMembers = record["maxMembers"] as? Int else { return nil }
+        guard let maxMembers = record["maxMembers"] as? String else { return nil }
         guard let members = record["members"] as? [String] else { return nil }
 //        guard let isPriced = record["isPriced"] as? Int else { return nil }
         guard let hour = record["hour"] as? String else { return nil }
         guard let daysOfTheWeek = record["daysOfTheWeek"] as? [Int] else { return nil }
+        guard let userAdressLat = record["userAdressLat"] as? String else { return nil }
+        guard let userAdressLong = record["userAdressLong"] as? String else { return nil }
         
         self.type = RideType(value: rideType)
         self.initialAdress = initialAdress
@@ -160,9 +181,10 @@ struct RideGroup: Hashable, CloudKitItemProtocol {
         self.admin = admin
         self.maxMembers = maxMembers
         self.members = members
-//        self.isPriced = isPriced
         self.hour = hour
         self.daysOfTheWeek = daysOfTheWeek
+        self.userAdressLat = userAdressLat
+        self.userAdressLong = userAdressLong
         
         self.record = record
         
@@ -185,5 +207,9 @@ var groups = [g1, g2]
 
 
 //MARK: VERIFICAR FORCED UNWRAP AQUI
-var g1: RideGroup = RideGroup(type: "Carro", initialAdress: "Rua João Alfredo 277", finalAdress: "PUCRS", admin: "userID", maxMembers: 4, members: [p2.name, p3.name], hour: "15:00", daysOfTheWeek: [1, 0, 1, 0, 0, 0, 0])!
-var g2: RideGroup = RideGroup(type: "Uber", initialAdress: "PUCRS", finalAdress: "Rua João Alfredo 277", admin: "userID2", maxMembers: 4, members: [p4.name, p5.name], hour: "15:00", daysOfTheWeek: [1, 0, 1, 0, 0, 0, 0])!
+var g1 = RideGroup(type: "Carro", initialAdress: "Academy", finalAdress: "Rua", admin: "Igor", maxMembers: "3", members: [] , hour: "15:00", daysOfTheWeek: [], userAdressLat: "-30.05985", userAdressLong: "-51.17175")!
+var g2 = RideGroup()
+
+
+//var g1: RideGroup = RideGroup(type: "Carro", initialAdress: "Rua João Alfredo 277", finalAdress: "PUCRS", admin: "userID", maxMembers: 4, members: [p2.name, p3.name], hour: "15:00", daysOfTheWeek: [1, 0, 1, 0, 0, 0, 0])
+//var g2: RideGroup = RideGroup(type: "Uber", initialAdress: "PUCRS", finalAdress: "Rua João Alfredo 277", admin: "userID2", maxMembers: 4, members: [p4.name, p5.name], hour: "15:00", daysOfTheWeek: [1, 0, 1, 0, 0, 0, 0])!

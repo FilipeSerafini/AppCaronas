@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct TabBarView: View {
     @Binding var nomeRua : String
+    @Binding var coordRua : CLLocationCoordinate2D
 
     var body: some View {
         TabView {
@@ -19,7 +21,7 @@ struct TabBarView: View {
                     }
                 }
             
-            BuscarView(nomeRua: $nomeRua)
+            BuscarView(nomeRua: $nomeRua, coordRua: $coordRua)
                 .tabItem {
                     VStack {
                         Label("Buscar", systemImage: "magnifyingglass")

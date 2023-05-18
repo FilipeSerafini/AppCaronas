@@ -10,6 +10,7 @@ import MapKit
 struct BuscarView: View {
     @StateObject var locationViewModel = LocationSearchViewModel()
     @Binding var nomeRua : String
+    @Binding var coordRua : CLLocationCoordinate2D
     
 //    @State var selectedDate = Calendar.current.date(bySettingHour: 13, minute: 30, second: 0, of: Date())!
     
@@ -83,7 +84,7 @@ struct BuscarView: View {
                                     //                                    }
                                     //                                }
                                     NavigationLink{
-                                        HomeView(selecao: true, nomeRua: $nomeRua).environmentObject(locationViewModel)
+                                        HomeView(selecao: true, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModel)
                                     }label: {
                                         Text(nomeRua == " " ? "Para" : nomeRua)
                                     }
@@ -101,7 +102,7 @@ struct BuscarView: View {
                                     //                                    }
                                     //                                }
                                     NavigationLink{
-                                        HomeView(selecao: true, nomeRua: $nomeRua).environmentObject(locationViewModel)
+                                        HomeView(selecao: true, nomeRua: $nomeRua, coordRua : $coordRua).environmentObject(locationViewModel)
                                     }label: {
                                         Text(nomeRua == " " ? "De" : nomeRua)
                                     }
