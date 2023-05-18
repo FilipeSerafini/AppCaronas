@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FeedView: View {
     
-    @StateObject var gc: RideGroupCRUD = RideGroupCRUD()
+    @EnvironmentObject var gc: RideGroupCRUD
 
     @Binding var nomeRua : String
     var body: some View {
@@ -22,6 +22,7 @@ struct FeedView: View {
                         }label: {
                             GroupRow(group: group)
                                 .foregroundColor(.black)
+                                .padding(.bottom, -24)
                         }
                     }
                 }
@@ -42,6 +43,9 @@ struct FeedView: View {
                 
             }
         }
+        .onAppear(perform: {
+            gc.fetchItems()
+        })
     }
 }
 

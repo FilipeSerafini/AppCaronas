@@ -16,7 +16,7 @@ class RideGroupCRUD: ObservableObject {
     init() {
         fetchItems()
     }
-
+    
     
     //criar e adicionar o grupo no banco
     func addGroup(group: RideGroup) {
@@ -53,6 +53,22 @@ class RideGroupCRUD: ObservableObject {
         CKContainer.default().publicCloudDatabase.add(operation)
     }
     
+    func deleteItem(_ group: RideGroup) {
+        guard let index = groups.firstIndex(where: { $0.id == group.id }) else { return }
+        
+        let record = group.record
+        
+        CloudKitUtility.delete(item: group)
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                
+            } receiveValue: { [weak self] success in
+                print("DELETE IS: \(success)")
+                self?.groups.remove(at: index)
+                
+            }
+            .store(in: &cancellables)
+    }
     
     //acessa o array de grupos a partir de um index, pega a fruta, pega o record
     func deleteItem(indexSet: IndexSet) {
@@ -73,28 +89,58 @@ class RideGroupCRUD: ObservableObject {
             .store(in: &cancellables)
     }
     
-//    logica eh a mesma que adicionar, mas pegamos um record ja existente, mudamos o que queremos e salvamos de volta (funcao save)
-    func updateItem(group: RideGroup, groupMembers: [String], groupMembersNames: [String], newMemberID: String, newMemberName: String) {
+    //    logica eh a mesma que adicionar, mas pegamos um record ja existente, mudamos o que queremos e salvamos de volta (funcao save)
+    func updateItem(group: RideGroup, newMemberID: String, newMemberName: String) {
         
-        var newMembers = groupMembers
-        newMembers.append(newMemberID)
+        var updatedGroup = group
+        updatedGroup.members.append(newMemberID)
+        updatedGroup.membersNames.append(newMemberName)
         
-        var newMembersNames = groupMembersNames
-        newMembersNames.append(newMemberName)
+        //        //adiciona o id do novo usario no array de ids (members)
+        //        var newMembers = updatedGroup.members
+        //        newMembers.append(newMemberID)
+        //
+        //        //adiciona o nome do usuario no array de nomes dos usuarios
+        //        var newMembersNames = updatedGroup.membersNames
+        //        newMembersNames.append(newMemberName)
+        //
+        //        updatedGroup.members = newMembers
+        //        updatedGroup.membersNames = newMembersNames
         
-        let record = group.record
-        record["members"] = newMembers
-        record["membersNames"] = newMembersNames
+        updatedGroup.record["members"] = updatedGroup.members
+        updatedGroup.record["membersNames"] = updatedGroup.membersNames
         
-        CloudKitUtility.update(item: group) { [weak self] result in
-            print("UPDATE COMPLETED")
+        CloudKitUtility.update(item: updatedGroup) { [weak self] result in
             self?.fetchItems()
+            print("UPDATE COMPLETED")
         }
     }
     
-    
-    
+    func removeParticipant(group: RideGroup, newMemberID: String, newMemberName: String) {
+        
+        if group.admin != UserCRUD.getUserID() {
+            var updatedGroup = group
+            
+            guard let index = updatedGroup.members.firstIndex(where: { $0 == newMemberID }) else { return }
+            guard let index2 = updatedGroup.membersNames.firstIndex(where: { $0 == newMemberName }) else { return }
+            
+            
+            updatedGroup.members.remove(at: index)
+            updatedGroup.membersNames.remove(at: index2)
+            
+            updatedGroup.record["members"] = updatedGroup.members
+            updatedGroup.record["membersNames"] = updatedGroup.membersNames
+            
+            CloudKitUtility.update(item: updatedGroup) { [weak self] result in
+                self?.fetchItems()
+                print("UPDATE COMPLETED")
+            }
+        }
+        
+    }
 }
+    
+   
 
 //class CloudKitCRUDBootcampViewModel: ObservableObject {
 //

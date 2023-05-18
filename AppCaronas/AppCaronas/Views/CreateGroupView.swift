@@ -11,8 +11,8 @@ import MapKit
 
 struct CreateGroupView: View {
     
-    let groupOperations: RideGroupCRUD = RideGroupCRUD()
-    
+    @EnvironmentObject var gc: RideGroupCRUD
+
     
     @State var selectedDate = Calendar.current.date(bySettingHour: 13, minute: 30, second: 0, of: Date())!
     
@@ -221,7 +221,7 @@ struct CreateGroupView: View {
                                                         userAdressLong: String(coordRua.longitude))!
                     
                     
-                    groupOperations.addGroup(group: newGroup)
+                    gc.addGroup(group: newGroup)
                 }label: {
                     ZStack{
                         Rectangle()

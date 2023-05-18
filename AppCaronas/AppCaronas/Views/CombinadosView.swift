@@ -8,17 +8,23 @@
 import SwiftUI
 
 struct CombinadosView: View {
+    @EnvironmentObject var gc: RideGroupCRUD
     @State var person: Person
+    
+    var myGroups: [RideGroup] {
+        gc.groups.filter({ $0.members.contains(where: { $0 == UserCRUD.getUserID() }) })
+    }
     
     var body: some View {
         NavigationStack{
             ScrollView{
-                ForEach(person.groups, id: \.self){ group in
+                ForEach(myGroups, id: \.self){ group in
                     GroupRow(group: group)
                 }
             }
             .navigationTitle("Combinados")
         }
+        
     }
 }
 

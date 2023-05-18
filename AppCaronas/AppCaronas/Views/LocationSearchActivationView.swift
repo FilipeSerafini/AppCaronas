@@ -12,12 +12,12 @@ struct LocationSearchActivationView: View {
         ZStack{
             HStack {
                 
-                Text(" Digitar endereço")
+                Text("  Digitar endereço")
                     .foregroundColor(Color.gray)
                 
                 Spacer()
             }
-            .frame(width: UIScreen.main.bounds.width - 64, height: 50)
+            .frame(width: UIScreen.main.bounds.width - 64, height: 38)
             .background(
                 Rectangle()
                     .fill(Color(.systemGray4))
