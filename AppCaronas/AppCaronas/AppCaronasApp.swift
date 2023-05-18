@@ -10,6 +10,7 @@ import MapKit
 
 @main
 struct AppCaronasApp: App {
+    @StateObject var uc: UserCRUD = UserCRUD()
     @State var nomeRua: String = " "
     @State var coordRua: CLLocationCoordinate2D = CLLocationCoordinate2D()
 
