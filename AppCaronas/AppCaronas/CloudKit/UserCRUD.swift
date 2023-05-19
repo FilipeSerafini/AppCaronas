@@ -91,27 +91,20 @@ class UserCRUD: ObservableObject {
             .store(in: &cancellables)
     }
     
-//    func setUserName(userName: String) {
-//        
-//        CloudKitUtility.discoverUserIdentity()
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] completion in
-//                switch completion {
-//                case .finished:
-//                    break
-//                case .failure(let error):
-//                    self?.error = error.localizedDescription
-//                }
-//            } receiveValue: { [weak self] returnedName in
-//                UserDefaults.standard.set(returnedName, forKey: "userName")
-//            }
-//            .store(in: &cancellables)
-//        
-//       
-//    }
+    static func setUserName(userName: String) {
+        UserDefaults.standard.set(userName, forKey: "userName")
+    }
     
     static func getUserName() -> String {
         return UserDefaults.standard.string(forKey: "userName") ?? "No Name"
+    }
+    
+    static func setUserPhone(phone: String) {
+        UserDefaults.standard.set(phone, forKey: "phone")
+    }
+    
+    static func getUserPhone() -> String {
+        return UserDefaults.standard.string(forKey: "phone") ?? ""
     }
     
     func setUserID() {

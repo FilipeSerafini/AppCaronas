@@ -28,14 +28,14 @@ struct TabBarView: View {
                     }
                 }
             
-            CombinadosView(person: p1)
+            CombinadosView()
                 .tabItem {
                     VStack {
                         Label("Combinados", systemImage: "hand.raised.fill")
                     }
                 }
             
-            PerfilView(person: p1)
+            PerfilView()
                 .tabItem {
                     VStack {
                         Label("Perfil", systemImage: "person")

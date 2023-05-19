@@ -12,7 +12,12 @@ struct ContentView: View {
     @Binding var nomeRua : String
     @Binding var coordRua : CLLocationCoordinate2D
     var body: some View {
-        TabBarView(nomeRua: $nomeRua, coordRua: $coordRua)
+        
+//        if UserDefaults.standard.string(forKey: "userName") == "No Name" {
+//            UserInfoView(nomeRua: $nomeRua, coordRua: $coordRua)
+//        } else {
+            TabBarView(nomeRua: $nomeRua, coordRua: $coordRua)
+//        }
     }
 }
 

@@ -9,27 +9,23 @@ import SwiftUI
 
 struct PerfilView: View {
     
-    @State var person: Person
-    
     var body: some View {
         NavigationStack{
             VStack{
                 VStack(alignment: .leading){
-                    Image(systemName: "person")
+                    Image(systemName: "person.circle.fill")
                         .resizable()
                         .frame(width: 100, height: 100)
                         .padding(.vertical, 30)
                     Text("Nome")
-                        .foregroundColor(.gray)
-                    Text(person.name)
+                        .foregroundColor(Color(.black).opacity(0.6))
+                    Text(UserCRUD.getUserName())
+                        .foregroundColor(Color(.lightGray))
                     Divider()
                     Text("Número de telefone")
-                        .foregroundColor(.gray)
-                    Text(person.number)
-                    Divider()
-                    Text("E-mail")
-                        .foregroundColor(.gray)
-                    Text(person.email)
+                        .foregroundColor(Color(.black).opacity(0.6))
+                    Text(UserCRUD.getUserPhone())
+                        .foregroundColor(Color(.lightGray))
                     Divider()
                     
                 }
@@ -43,6 +39,6 @@ struct PerfilView: View {
 
 struct PerfilView_Previews: PreviewProvider {
     static var previews: some View {
-        PerfilView(person: p1)
+        PerfilView()
     }
 }

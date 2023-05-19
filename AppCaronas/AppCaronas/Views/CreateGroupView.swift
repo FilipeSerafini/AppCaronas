@@ -1,3 +1,5 @@
+
+
 //
 //  CreateGroupView.swift
 //  AppCaronas
@@ -11,14 +13,16 @@ import MapKit
 
 struct CreateGroupView: View {
     
-    @EnvironmentObject var gc: RideGroupCRUD
-
+    let groupOperations: RideGroupCRUD = RideGroupCRUD()
+    @Environment(\.dismiss) var dismiss
+    
     
     @State var selectedDate = Calendar.current.date(bySettingHour: 13, minute: 30, second: 0, of: Date())!
     
     @State var selectedDays: [Bool] = [false, false, false, false, false, false, false]
     @State var selectedType: RideType = .car
     @State var maxMembers: String = "2"
+    var nmembers: [String] = ["2","3","4","5","6","7","8","9","10"]
     @State var initalAdress: String = ""
     @State var finalAdress: String = ""
     @State var userID: String = ""
@@ -67,7 +71,7 @@ struct CreateGroupView: View {
                                 .coordinateSpace(name: "end")
                         }
                         
-                        VStack(alignment: .leading, spacing: 24) {
+                        VStack(alignment: .leading, spacing: 20) {
                             if (!swapped) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 10)
@@ -75,44 +79,42 @@ struct CreateGroupView: View {
                                         .frame(width: 82, height: 24)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color.black, lineWidth: 1)
+                                                .stroke(Color(.gray), lineWidth: 1)
                                         )
                                     Text("Academy")
+                                        .foregroundColor(Color(.lightGray))
                                 }
                                 .matchedGeometryEffect(id: "academy", in: animation)
-//                                NavigationLink {
-//                                    AddressSearchView()
-//                                } label: {
-//                                    ZStack(alignment: .leading) {
-//                                        RoundedRectangle(cornerRadius: 5)
-//                                            .frame(width: 260, height: 25)
-//                                            .foregroundColor(Color(.lightGray))
-//                                        Text(" Para")
-//                                            .foregroundColor(.black)
-//                                    }
-//                                }
                                 NavigationLink{
                                     HomeView(selecao: false, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModelReserva)
                                 }label: {
-                                    Text(nomeRua == " " ? "Para" : nomeRua)
+                                    ZStack{
+                                        Rectangle()
+                                            .foregroundColor(Color(.systemGray6))
+                                            .frame(width: 270,height: 30)
+                                            .cornerRadius(10)
+
+                                            Text(nomeRua == " " ? "Para" : nomeRua)
+                                            .padding(.trailing, 226)
+                                            .foregroundColor(.black)
+                                    }
                                 }
                                 .matchedGeometryEffect(id: "addressBar", in: animation)
                             } else {
-//                                NavigationLink {
-//                                    AddressSearchView()
-//                                } label: {
-//                                    ZStack(alignment: .leading) {
-//                                        RoundedRectangle(cornerRadius: 5)
-//                                            .frame(width: 260, height: 25)
-//                                            .foregroundColor(Color(.lightGray))
-                                //                                        Text(" De")
-                                //                                            .foregroundColor(.black)
-                                //                                    }
-                                //                                }
                                 NavigationLink{
-                                    HomeView(selecao: false, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModelReserva)                                }label: {
+                                    HomeView(selecao: false, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModelReserva)
+                                }label: {
+                                    ZStack{
+                                        Rectangle()
+                                            .foregroundColor(Color(.systemGray6))
+                                            .frame(width: 270,height: 30)
+                                            .cornerRadius(10)
+                                        
                                         Text(nomeRua == " " ? "De" : nomeRua)
+                                            .padding(.trailing, 226)
+                                            .foregroundColor(.black)
                                     }
+                                }
                                     .matchedGeometryEffect(id: "addressBar", in: animation)
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 10)
@@ -120,9 +122,10 @@ struct CreateGroupView: View {
                                         .frame(width: 82, height: 24)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color.black, lineWidth: 1)
+                                                .stroke(Color(.gray), lineWidth: 1)
                                         )
                                     Text("Academy")
+                                        .foregroundColor(Color(.lightGray))
                                 }
                                 .matchedGeometryEffect(id: "academy", in: animation)
                             }
@@ -134,29 +137,42 @@ struct CreateGroupView: View {
                 .padding()
                 
                 Text("Dia(s):")
+                    .padding(.horizontal, 35)
             }
             VStack {
+                
                 HStack(spacing: 10) {
                     ForEach(0..<letters.count, id: \.self) { i in
                         ZStack {
                             Circle()
-                                .frame(width: CGFloat(30 + 4))
+                                .frame(width: CGFloat(34.5))
                                 .foregroundColor(selectedDays[i] ? .green : Color(.systemGray5))
+                            
+                            Circle()
+                                .frame(width: CGFloat(28))
+                                .foregroundColor(.black)
+                            
                             Image(systemName: "\(letters[i]).circle.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: CGFloat(30))
-                                .foregroundColor(Color(.systemGray4))
-                                .background(Color(.black))
-                                .clipShape(Circle())
+                                .foregroundColor(Color(.systemGray5))
+                            
                         }
                         .onTapGesture {
                             selectedDays[i].toggle()
                         }
                     }
                 }
-                    .padding()
+                .padding(.horizontal)
                 
+                HStack{
+                    Text("Horário:")
+                        .padding(.horizontal, 35)
+                        .padding(.top, 25)
+                    
+                    Spacer()
+                }
                 DatePicker("Select Time", selection: $selectedDate, displayedComponents: .hourAndMinute)
                     .datePickerStyle(.compact)
                     .labelsHidden()
@@ -164,6 +180,7 @@ struct CreateGroupView: View {
                 
                 HStack {
                     Text("Tipo de companhia")
+                        .padding(.horizontal)
                     Spacer()
                     Picker("Tipo de companhia", selection: $selectedType) {
                         Text("Carro").tag(RideType.car)
@@ -176,70 +193,79 @@ struct CreateGroupView: View {
                     .tint(.black)
                     .pickerStyle(.menu)
                 }
+                .background(Color(.systemGray5))
+                .cornerRadius(8)
                 .padding(.horizontal)
                 
                 HStack {
                     Text("Número máximo de participantes")
+                        .padding(.horizontal)
                     Spacer()
                     Picker("Número máximo de participantes", selection: $maxMembers) {
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                        Text("10").tag(10)
+                        Text("2").tag(nmembers[0])
+                        Text("3").tag(nmembers[1])
+                        Text("4").tag(nmembers[2])
+                        Text("5").tag(nmembers[3])
+                        Text("6").tag(nmembers[4])
+                        Text("7").tag(nmembers[5])
+                        Text("8").tag(nmembers[6])
+                        Text("9").tag(nmembers[7])
+                        Text("10").tag(nmembers[8])
                     }
                     .tint(.black)
                     .pickerStyle(.menu)
                 }
+                .background(Color(.systemGray5))
+                .cornerRadius(8)
                 .padding(.horizontal)
                 
-                
-                Button{
-                    
-                    let daysInt: [Int] = convertWeekToInt(daysOfTheWeek: selectedDays)
-                    setAdresses()
-                    self.userID = UserCRUD.getUserID()
-                    self.userName = UserCRUD.getUserName()
-                    let hourString = convertHourToString()
-                    
-                    
-                    
-                    let newGroup: RideGroup = RideGroup(type: selectedType.description,
-                                                        initialAdress: initalAdress,
-                                                        finalAdress: finalAdress,
-                                                        admin: userID,
-                                                        maxMembers: maxMembers,
-                                                        members: [userID],
-                                                        membersNames: [userName],
-                                                        hour: hourString,
-                                                        daysOfTheWeek: daysInt,
-                                                        userAdressLat: String(coordRua.latitude),
-                                                        userAdressLong: String(coordRua.longitude))!
-                    
-                    
-                    gc.addGroup(group: newGroup)
-                }label: {
-                    ZStack{
-                        Rectangle()
-                            .cornerRadius(20)
-                            .frame(width: 100, height: 50)
-                        Text("Criar")
-                            .foregroundColor(.white)
-                        
+                Spacer()
+                ZStack{
+                    HStack{
+                        Button{
+                            dismiss()
+                        }label:{
+                            ZStack{
+                                Text("Cancelar")
+                                    .foregroundColor(.black)
+                                
+                            }
+                        }
+                        .padding(.horizontal, 40)
+                        Spacer()
                     }
+                    Button{
+                        
+                        let daysInt: [Int] = convertWeekToInt(daysOfTheWeek: selectedDays)
+                        setAdresses()
+                        self.userID = UserCRUD.getUserID()
+                        let hourString = convertHourToString()
+                        self.userName = UserCRUD.getUserName()
+
+                        
+                        
+                        
+                        let newGroup: RideGroup = RideGroup(type: selectedType.description, initialAdress: initalAdress, finalAdress: finalAdress, admin: userID, maxMembers: maxMembers, members: [userID], membersNames: [userName], hour: hourString, daysOfTheWeek: daysInt, userAdressLat: String(coordRua.latitude), userAdressLong: String(coordRua.longitude))!
+                        
+                        
+                        groupOperations.addGroup(group: newGroup)
+                    }label: {
+                        ZStack{
+                            Rectangle()
+                                .cornerRadius(20)
+                                .frame(width: 100, height: 50)
+                            Text("Criar")
+                                .foregroundColor(.white)
+                            
+                        }
+                    }
+                    .padding()
+                    
                 }
-                .padding()
-                //                .listStyle(.inset)
-                
-                
             }
-            
             .navigationTitle("Criar Companhia")
             .navigationBarTitleDisplayMode(.inline)
+
         }
     }
     
@@ -276,3 +302,4 @@ struct CreateGroupView_Previews: PreviewProvider {
         CreateGroupView()
     }
 }
+

@@ -12,8 +12,6 @@ struct BuscarView: View {
     @Binding var nomeRua : String
     @Binding var coordRua : CLLocationCoordinate2D
     
-//    @State var selectedDate = Calendar.current.date(bySettingHour: 13, minute: 30, second: 0, of: Date())!
-    
     @State var selectedDay: [Bool] = [false, false, false, false, false, false, false]
     let letters: [String] = ["s","t","q","q","s","s","d"]
     
@@ -24,6 +22,14 @@ struct BuscarView: View {
     @State var swapped = false
     
     
+    @State var initialAdress: String = ""
+    @State var finalAdress: String = ""
+    
+    @EnvironmentObject var gc: RideGroupCRUD
+    
+    var userGroups: [RideGroup] {
+        gc.groups.filter({ $0.members.contains(where: { $0 == UserCRUD.getUserID() }) })
+    }
     
     
     var body: some View {
@@ -84,7 +90,7 @@ struct BuscarView: View {
                                     //                                    }
                                     //                                }
                                     NavigationLink{
-                                        HomeView(selecao: true, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModel)
+                                        HomeView2(selecao: false, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModel)
                                     }label: {
                                         Text(nomeRua == " " ? "Para" : nomeRua)
                                     }
@@ -102,7 +108,7 @@ struct BuscarView: View {
                                     //                                    }
                                     //                                }
                                     NavigationLink{
-                                        HomeView(selecao: true, nomeRua: $nomeRua, coordRua : $coordRua).environmentObject(locationViewModel)
+                                        HomeView2(selecao: true, nomeRua: $nomeRua, coordRua : $coordRua).environmentObject(locationViewModel)
                                     }label: {
                                         Text(nomeRua == " " ? "De" : nomeRua)
                                     }
@@ -124,47 +130,61 @@ struct BuscarView: View {
                     }
                     .padding()
                     
-                    Text("Dia(s):")
+//                    Text("Dia(s):")
                 }
-                VStack{
-                    //                WeekButtonView(size: 30)
-                    HStack(spacing: 10) {
-                        ForEach(0..<letters.count, id: \.self) { i in
-                            Button {
-                                selectedDay[i].toggle()
-                            } label: {
-                                ZStack {
-                                    Circle()
-                                        .frame(width: CGFloat(30 + 4))
-                                        .foregroundColor(selectedDay[i] ? .green : Color(.lightGray))
-                                    Image(systemName: "\(letters[i]).circle.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: CGFloat(30))
-                                        .foregroundColor(Color(.lightGray))
-                                        .background(Color(.black))
-                                        .clipShape(Circle())
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                            }
-                        }
-                    }
-                    .padding()
-                    
-                    TimeSelectionView()
-                    
-                    
-                    
-                    
-                   
-                    
-                    
-                }
+//                VStack{
+//                    //                WeekButtonView(size: 30)
+//                    HStack(spacing: 10) {
+//                        ForEach(0..<letters.count, id: \.self) { i in
+//                            Button {
+//                                selectedDay[i].toggle()
+//                            } label: {
+//                                ZStack {
+//                                    Circle()
+//                                        .frame(width: CGFloat(30 + 4))
+//                                        .foregroundColor(selectedDay[i] ? .green : Color(.lightGray))
+//                                    Image(systemName: "\(letters[i]).circle.fill")
+//                                        .resizable()
+//                                        .scaledToFit()
+//                                        .frame(width: CGFloat(30))
+//                                        .foregroundColor(Color(.lightGray))
+//                                        .background(Color(.black))
+//                                        .clipShape(Circle())
+//                                }
+//                                .buttonStyle(PlainButtonStyle())
+//                            }
+//                        }
+//                    }
+//                    .padding()
+//
+//                    TimeSelectionView()
+//
+//
+//
+//
+//
+//
+//
+//                }
                 
-                .navigationTitle("Criar Companhia")
+                .navigationTitle("Pesquisar Companhia")
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
         
     }
+    
+    
+    
+    func setAdresses() {
+        if !swapped {
+            initialAdress = "Academy"
+            finalAdress = nomeRua
+        } else {
+            initialAdress = nomeRua
+            finalAdress = "Academy"
+        }
+    }
+    
 }
+
