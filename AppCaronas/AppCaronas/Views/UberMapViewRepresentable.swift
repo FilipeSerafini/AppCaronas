@@ -126,6 +126,7 @@ extension UberMapViewRepresentable {
         func verificaEnderecos(withDestinationCoordinate coordinates: CLLocationCoordinate2D){
             if parent.formaHome == true {
            
+            
             getDestinationRoute(from: self.parent.enderecos[0].location, to: coordinates) { route in
                 print("%")
                 if route.distance < 2400 && route.distance > 0 {
