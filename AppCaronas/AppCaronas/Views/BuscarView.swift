@@ -90,7 +90,7 @@ struct BuscarView: View {
                                     //                                    }
                                     //                                }
                                     NavigationLink{
-                                        HomeView2(selecao: false, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModel)
+                                        HomeView(selecao: true, nomeRua: $nomeRua, coordRua: $coordRua).environmentObject(locationViewModel)
                                     }label: {
                                         Text(nomeRua == " " ? "Para" : nomeRua)
                                     }
@@ -108,7 +108,7 @@ struct BuscarView: View {
                                     //                                    }
                                     //                                }
                                     NavigationLink{
-                                        HomeView2(selecao: true, nomeRua: $nomeRua, coordRua : $coordRua).environmentObject(locationViewModel)
+                                        HomeView(selecao: true, nomeRua: $nomeRua, coordRua : $coordRua).environmentObject(locationViewModel)
                                     }label: {
                                         Text(nomeRua == " " ? "De" : nomeRua)
                                     }

@@ -33,10 +33,11 @@ struct Endereco: Hashable {
 struct HomeView: View {
     @State private var mapState = MapViewState.noInput
     @State var controle = 0
-    @State var conjunto : Set<Endereco> = [Endereco(nome: " ", location: CLLocationCoordinate2D(), destino: CLLocationCoordinate2D())]
+    @State var conjunto : Set<RideGroup> = []
     @State var timeRemaining = 60
     @State var vezes = 0
     @State var ender = CLLocationCoordinate2D()
+    @EnvironmentObject var gc: RideGroupCRUD
     var selecao : Bool
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @Binding var nomeRua : String
@@ -47,9 +48,11 @@ struct HomeView: View {
     @State var enderecos : [Endereco] = [Endereco(nome: "Rua Santa tecla 11", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.00056, longitude: -51.15247)), Endereco(nome: "Rua 12 de Outubro, 109", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.06713, longitude: -51.19049)), Endereco(nome: "Rua Dr Telmo Vergara 155", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.05974, longitude: -51.15785)), Endereco(nome: "Rua Joao Alfredo 277", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.03983, longitude: -51.22669)), Endereco(nome: "Zona Sul", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.08996, longitude: -51.23896)), Endereco(nome: "Rua Humaita", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -29.98755, longitude: -51.19356)), Endereco(nome: "Rua Paulo Blaschke", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.01371, longitude: -51.13257)), Endereco(nome: "Rua Quintino Bocaiúva, 1394", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.03056, longitude: -51.19681)), Endereco(nome: "Rua Vidal De Negreiros 270 Carrefour", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.06233, longitude: -51.16968)), Endereco(nome: "Rua Pedro Boticario Centro 311", location: CLLocationCoordinate2D(latitude: -30.05985, longitude: -51.17175), destino: CLLocationCoordinate2D(latitude: -30.07170, longitude: -51.20056))]
     var body: some View {
         
+        NavigationStack{
             ZStack(alignment: .top) {
                 VStack{
-                    UberMapViewRepresentable(enderecos: $enderecos, mapState: $mapState, controle: $controle, conjunto: $conjunto, vezes: $vezes, ender: $ender, formaHome: selecao)
+                    UberMapViewRepresentable( mapState: $mapState, controle: $controle, conjunto: $conjunto, vezes: $vezes, ender: $ender, formaHome: selecao)
+                        .environmentObject(gc)
                         .ignoresSafeArea()
                     
                     ZStack{
@@ -96,20 +99,30 @@ struct HomeView: View {
                 }
             }
             
+        }
+                   
+            
     }
 }
-
-
-
 
 struct PrintaMatch: View {
-    @Binding var conjunto : Set<Endereco>
+    @Binding var conjunto : Set<RideGroup>
     @Binding var coordRua : CLLocationCoordinate2D
     @Binding var nomeRua : String
+
     var body: some View {
-        
-        Text(" ")
+        ScrollView{
+            ForEach(Array(conjunto), id: \.self) { value in
+                    
+                    NavigationLink{
+                        GroupDetailsView(group: value)
+                    }label: {
+                        GroupRow(group: value)
+                    }
+                
+            }
+             
+        }
         
     }
 }
-

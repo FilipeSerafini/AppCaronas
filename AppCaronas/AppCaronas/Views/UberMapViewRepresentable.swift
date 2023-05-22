@@ -7,17 +7,20 @@
 
 import SwiftUI
 import MapKit
+import ClockKit
 
 struct UberMapViewRepresentable: UIViewRepresentable {
-    @Binding var enderecos : [Endereco]
     let mapView = MKMapView()
     let locationManager = LocationManager()
     @Binding var mapState: MapViewState
     @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @Binding var controle : Int
-    @Binding var conjunto : Set<Endereco>
+    @Binding var conjunto : Set<RideGroup>
     @Binding var vezes : Int
     @Binding var ender : CLLocationCoordinate2D
+    @EnvironmentObject var gc: RideGroupCRUD
+    @State var cont = 0
+
     var formaHome : Bool
     
     
@@ -33,8 +36,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        print("DEBUG: Map state is \(mapState)")
-        _ = mapState
+
         switch mapState {
         case .noInput:
             context.coordinator.clearMapViewAndRecenterOnUserLocation()
@@ -47,6 +49,8 @@ struct UberMapViewRepresentable: UIViewRepresentable {
                 context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate)
                 context.coordinator.configurePolyLine(withDestinationCoordinate: coordinate)
                 context.coordinator.verificaEnderecos(withDestinationCoordinate: coordinate)
+                 
+                
                 
             }
             
@@ -125,9 +129,11 @@ extension UberMapViewRepresentable {
         
         func verificaEnderecos(withDestinationCoordinate coordinates: CLLocationCoordinate2D){
             if parent.formaHome == true {
-           
+               // parent.gc.fetchItems()
+                
+                
             
-            getDestinationRoute(from: self.parent.enderecos[0].location, to: coordinates) { route in
+               /* getDestinationRoute(from: CLLocationCoordinate2D(latitude: -30.06000, longitude: -51.17165), to: coordinates) { route in
                 print("%")
                 if route.distance < 2400 && route.distance > 0 {
                     print("*")
@@ -135,28 +141,34 @@ extension UberMapViewRepresentable {
                     
 
                 }
-            }
+            }*/
             
-            for i in 0...self.parent.enderecos.count - 1{
-                getDestinationRoute(from: self.parent.enderecos[i].location, to: self.parent.enderecos[i].destino) { route in
+                for group in parent.gc.groups{
+                    print("Grupo ", group.finalAdress, group.initialAdress)
+                    let aux1 = CLLocationCoordinate2D(latitude: CLLocationDegrees(group.userAdressLat) ?? 0.0 , longitude: CLLocationDegrees(group.userAdressLong) ?? 0.0)
+                    
+                    let aux2 = CLLocationCoordinate2D(latitude: -30.06000, longitude: -51.17165)
+                    
+                    getDestinationRoute(from: (aux1), to: (aux2)) { route in
                     let cont = route.polyline.pointCount
                     
                     
-                    self.getDestinationRoute(from: self.parent.enderecos[i].destino, to: coordinates) { routes in
+                    self.getDestinationRoute(from: (aux1), to: aux2) { routes in
                         print("%")
-                        if routes.distance < 2400 && routes.distance > 0 {
+                        if routes.distance < 2700 && routes.distance > 0 {
                             print("*")
-                            self.parent.conjunto.insert(self.parent.enderecos[i])
-                            
+                            self.parent.conjunto.insert(group)
+                            print("ADICIONOU", group.initialAdress)
+
                             
                         }
                         
                     }
                     
-                    
-                    for x in 0..<Int(cont - 1)/(9 + (self.parent.enderecos.count))  {
-                        if x * (9 + (self.parent.enderecos.count)) <= route.polyline.pointCount - 1{
-                            let start = route.polyline.points()[Int(x)*(9 + (self.parent.enderecos.count))]
+                    let quantidade = self.parent.gc.groups.count
+                        for x in 0..<Int(cont - 1)/(12 + (quantidade))  {
+                            if x * (12 + (quantidade)) <= route.polyline.pointCount - 1{
+                                let start = route.polyline.points()[Int(x)*(12 + (quantidade))]
                             
                             // Cria placemarks para cada extremidade do segmento
                             
@@ -164,10 +176,10 @@ extension UberMapViewRepresentable {
                             self.getDestinationRoute(from: start.coordinate, to: coordinates){ routes in
                                 print("%")
                                 
-                                if routes.distance < 2400 && routes.distance > 0 {
+                                if routes.distance < 2700 && routes.distance > 0 {
                                     print("*")
-                                    self.parent.conjunto.insert(self.parent.enderecos[i])
-                                    
+                                    self.parent.conjunto.insert(group)
+                                    print("ADICIONOU", group.initialAdress)
                                     
                                     
                                 }
