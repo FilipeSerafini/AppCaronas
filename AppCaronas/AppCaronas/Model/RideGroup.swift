@@ -41,9 +41,9 @@ enum RideType{
     var typeImage: Image{
         switch self{
         case .car:
-            return Image(systemName: "car")
+            return Image(systemName: "car.fill")
         case .motorcycle:
-            return Image(systemName: "cart")
+            return Image("motorbike")
         case .bus:
             return Image(systemName: "bus")
         case .uber:

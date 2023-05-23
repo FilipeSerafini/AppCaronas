@@ -93,10 +93,13 @@ struct CreateGroupView: View {
                                             .foregroundColor(Color(.systemGray6))
                                             .frame(width: 270,height: 30)
                                             .cornerRadius(10)
-
+                                        HStack{
                                             Text(nomeRua == " " ? "Para" : nomeRua)
-                                            .padding(.trailing, 226)
-                                            .foregroundColor(.black)
+//                                                .padding(.trailing, 226)
+                                                .padding(.leading)
+                                                .foregroundColor(.black)
+                                            Spacer()
+                                        }
                                     }
                                 }
                                 .matchedGeometryEffect(id: "addressBar", in: animation)
@@ -249,6 +252,7 @@ struct CreateGroupView: View {
                         
                         
                         groupOperations.addGroup(group: newGroup)
+                        dismiss()
                     }label: {
                         ZStack{
                             Rectangle()
@@ -256,7 +260,6 @@ struct CreateGroupView: View {
                                 .frame(width: 100, height: 50)
                             Text("Criar")
                                 .foregroundColor(.white)
-                            
                         }
                     }
                     .padding()

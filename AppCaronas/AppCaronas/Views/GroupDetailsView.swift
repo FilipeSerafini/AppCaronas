@@ -81,7 +81,7 @@ struct MapView: UIViewRepresentable {
 
 struct GroupDetailsView: View {
     @EnvironmentObject var gc: RideGroupCRUD
-    
+    @Environment(\.dismiss) var dismiss
     
     var group: RideGroup
     
@@ -175,9 +175,12 @@ struct GroupDetailsView: View {
                         
                         
                         WeekView(group: group,size: 30)
-                        
-                        Text("\(group.type.typeImage) \(group.type.descriptionDetailed)")
-                            .padding(.vertical)
+                        HStack{
+                            Text("\(group.type.typeImage) \(group.type.descriptionDetailed)")
+                                .padding(.leading, 30)
+                            Spacer()
+                        }
+                        .padding(.vertical)
                     }
                     .padding(.vertical, 20)
                 }
@@ -241,7 +244,7 @@ struct GroupDetailsView: View {
                     Button{
                         
                         gc.deleteItem(group)
-                        
+                        dismiss()
                     }label: {
                         Text("Excluir Grupo")
                             .font(Font.custom("SF Pro Text", size: 15))
@@ -277,7 +280,6 @@ struct GroupDetailsView: View {
                         .frame(width: 25, height: 25)
                     //                    .padding(.top, 50)
                         .foregroundColor(.green)
-                        .shadow(color: .black, radius: 30)
                 }
             } else {
                 
@@ -294,7 +296,6 @@ struct GroupDetailsView: View {
                         .resizable()
                         .frame(width: 25, height: 25)
                         .foregroundColor(.red)
-                        .shadow(color: .black, radius: 30)
                 }
                 
             }

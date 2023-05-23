@@ -14,7 +14,13 @@ struct GroupRow: View {
     var body: some View {
         VStack{
             HStack{
-                group.type.typeImage
+                if group.type != .motorcycle{
+                    group.type.typeImage
+                }else{
+                    group.type.typeImage
+                        .resizable()
+                        .frame(width: 20, height: 18)
+                }
                 if (group.initialAdress == "Academy") {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
